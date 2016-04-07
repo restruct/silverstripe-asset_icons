@@ -1,5 +1,5 @@
 {
-    "name": "micschk/asset_icons",
+    "name": "micschk/silverstripe-asset_icons",
     "description": "Fix-up assets with filetype icons and better filenames",
     "type": "silverstripe-module",
     "keywords": ["silverstripe"],
