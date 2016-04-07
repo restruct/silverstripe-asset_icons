@@ -1,0 +1,16 @@
+---
+Name: 'assetadmin_enhancements'
+After:
+  - 'framework/*'
+  - 'cms/*'
+---
+AssetAdmin:
+  extensions:
+    - AssetAdmin_IconExtension
+# Requires an extension hook that not (yet) exists
+#UploadField_SelectHandler:
+#  extensions:
+#    - UploadField_IconExtension
+Injector:
+  UploadField_SelectHandler:
+    class: UploadField_SelectHandler_Iconized
