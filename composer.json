@@ -11,8 +11,7 @@
         }
     ],
     "require": {
-		"silverstripe/framework": "3.*",
-        "silverstripe/cms": "3.*"
+		"silverstripe/framework": "3.*"
     },
 	"support": {
 		"issues": "https://github.com/micschk/silverstripe-asset_icons/issues"
