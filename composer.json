@@ -2,6 +2,7 @@
     "name": "restruct/silverstripe-asset_icons",
     "description": "Fix-up assets with filetype icons and better filenames",
     "type": "vendor-module",
+    "license": "MIT",
     "keywords": ["silverstripe"],
 	"homepage": "https://github.com/restruct/silverstripe-asset_icons/",
     "authors": [
