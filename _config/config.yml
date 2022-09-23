@@ -1,16 +1,8 @@
 ---
-Name: 'assetadmin_enhancements'
-After:
-  - 'framework/*'
-  - 'cms/*'
+Name: 'asset-icons'
 ---
-AssetAdmin:
-  extensions:
-    - AssetAdmin_IconExtension
-# Requires an extension hook that not (yet) exists
-#UploadField_SelectHandler:
-#  extensions:
-#    - UploadField_IconExtension
-Injector:
-  UploadField_SelectHandler:
-    class: UploadField_SelectHandler_Iconized
+SilverStripe\Admin\LeftAndMain:
+  extra_requirements_javascript:
+    - restruct/silverstripe-asset_icons:client/js/asset-icons.js
+  extra_requirements_css:
+    - restruct/silverstripe-asset_icons:client/css/asset-icons.css

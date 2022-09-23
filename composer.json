@@ -1,9 +1,9 @@
 {
-    "name": "micschk/silverstripe-asset_icons",
+    "name": "restruct/silverstripe-asset_icons",
     "description": "Fix-up assets with filetype icons and better filenames",
-    "type": "silverstripe-module",
+    "type": "vendor-module",
     "keywords": ["silverstripe"],
-	"homepage": "https://github.com/micschk/silverstripe-asset_icons/",
+	"homepage": "https://github.com/restruct/silverstripe-asset_icons/",
     "authors": [
         {
             "name": "Restruct web & apps",
@@ -11,12 +11,12 @@
         }
     ],
     "require": {
-		"silverstripe/framework": "3.*"
+		"silverstripe/asset-admin": "1.*",
+		"restruct/silverstripe-simpler": "^0"
     },
-	"support": {
-		"issues": "https://github.com/micschk/silverstripe-asset_icons/issues"
-	},
-	"installer-name": {
-		"installer": "asset_icons"
-	}
+    "extra": {
+        "expose": [
+            "client/"
+        ]
+    }
 }

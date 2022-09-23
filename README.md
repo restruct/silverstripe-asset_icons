@@ -1,6 +1,5 @@
-# Fix-up assets with filetype icons and better filenames
+# Fix-up assets with filetype icons and actual filenames
 
-![](docs/screenshot.png)
-![](docs/screenshot-picker.png)
+![](docs/asset-admin-icons.png)
 
 Icons: https://github.com/teambox/Free-file-icons

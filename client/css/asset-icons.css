@@ -1,0 +1,763 @@
+.gallery__main-view--tile div[data-ext] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .editor__thumbnail-container[data-ext] {
+  background-image: url("../icons/512px/_blank.png");
+  background-size: 92px 92px;
+}
+
+.gallery__main-view--table .gallery__table-row[data-ext] .gallery__table-image--document {
+  background-image: url("../icons/512px/_blank.png");
+}
+
+.editor__details .editor__thumbnail-container[data-ext] {
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.editor__details .editor__thumbnail-container[data-ext] img {
+  opacity: 0;
+}
+
+.AssetAdmin.LeftAndMain .gallery__table-column--title span[data-filename] {
+  margin-top: -6px;
+}
+.AssetAdmin.LeftAndMain .gallery__table-column--title span[data-filename]:after {
+  content: attr(data-name);
+  display: block;
+  position: absolute;
+  font-size: 10px;
+  margin-top: -4px;
+  color: #ced3d9;
+}
+
+.gallery__main-view--table div[data-ext=aac] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=aac] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=aac],
+.gallery__main-view--tile div[data-ext=aac] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=aac] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=aac],
+.editor__details div[data-ext=aac] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=aac] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=aac] {
+  background-image: url("../icons/512px/aac.png");
+}
+
+.gallery__main-view--table div[data-ext=ai] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=ai] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=ai],
+.gallery__main-view--tile div[data-ext=ai] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=ai] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=ai],
+.editor__details div[data-ext=ai] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=ai] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=ai] {
+  background-image: url("../icons/512px/ai.png");
+}
+
+.gallery__main-view--table div[data-ext=aiff] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=aiff] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=aiff],
+.gallery__main-view--tile div[data-ext=aiff] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=aiff] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=aiff],
+.editor__details div[data-ext=aiff] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=aiff] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=aiff] {
+  background-image: url("../icons/512px/aiff.png");
+}
+
+.gallery__main-view--table div[data-ext=avi] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=avi] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=avi],
+.gallery__main-view--tile div[data-ext=avi] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=avi] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=avi],
+.editor__details div[data-ext=avi] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=avi] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=avi] {
+  background-image: url("../icons/512px/avi.png");
+}
+
+.gallery__main-view--table div[data-ext=bmp] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=bmp] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=bmp],
+.gallery__main-view--tile div[data-ext=bmp] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=bmp] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=bmp],
+.editor__details div[data-ext=bmp] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=bmp] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=bmp] {
+  background-image: url("../icons/512px/bmp.png");
+}
+
+.gallery__main-view--table div[data-ext=c] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=c] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=c],
+.gallery__main-view--tile div[data-ext=c] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=c] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=c],
+.editor__details div[data-ext=c] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=c] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=c] {
+  background-image: url("../icons/512px/c.png");
+}
+
+.gallery__main-view--table div[data-ext=cpp] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=cpp] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=cpp],
+.gallery__main-view--tile div[data-ext=cpp] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=cpp] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=cpp],
+.editor__details div[data-ext=cpp] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=cpp] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=cpp] {
+  background-image: url("../icons/512px/cpp.png");
+}
+
+.gallery__main-view--table div[data-ext=css] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=css] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=css],
+.gallery__main-view--tile div[data-ext=css] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=css] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=css],
+.editor__details div[data-ext=css] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=css] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=css] {
+  background-image: url("../icons/512px/css.png");
+}
+
+.gallery__main-view--table div[data-ext=dat] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=dat] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=dat],
+.gallery__main-view--tile div[data-ext=dat] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=dat] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=dat],
+.editor__details div[data-ext=dat] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=dat] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=dat] {
+  background-image: url("../icons/512px/dat.png");
+}
+
+.gallery__main-view--table div[data-ext=dmg] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=dmg] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=dmg],
+.gallery__main-view--tile div[data-ext=dmg] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=dmg] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=dmg],
+.editor__details div[data-ext=dmg] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=dmg] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=dmg] {
+  background-image: url("../icons/512px/dmg.png");
+}
+
+.gallery__main-view--table div[data-ext=doc] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=doc] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=doc],
+.gallery__main-view--tile div[data-ext=doc] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=doc] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=doc],
+.editor__details div[data-ext=doc] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=doc] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=doc] {
+  background-image: url("../icons/512px/doc.png");
+}
+
+.gallery__main-view--table div[data-ext=dotx] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=dotx] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=dotx],
+.gallery__main-view--tile div[data-ext=dotx] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=dotx] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=dotx],
+.editor__details div[data-ext=dotx] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=dotx] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=dotx] {
+  background-image: url("../icons/512px/dotx.png");
+}
+
+.gallery__main-view--table div[data-ext=dwg] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=dwg] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=dwg],
+.gallery__main-view--tile div[data-ext=dwg] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=dwg] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=dwg],
+.editor__details div[data-ext=dwg] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=dwg] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=dwg] {
+  background-image: url("../icons/512px/dwg.png");
+}
+
+.gallery__main-view--table div[data-ext=dxf] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=dxf] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=dxf],
+.gallery__main-view--tile div[data-ext=dxf] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=dxf] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=dxf],
+.editor__details div[data-ext=dxf] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=dxf] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=dxf] {
+  background-image: url("../icons/512px/dxf.png");
+}
+
+.gallery__main-view--table div[data-ext=eps] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=eps] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=eps],
+.gallery__main-view--tile div[data-ext=eps] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=eps] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=eps],
+.editor__details div[data-ext=eps] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=eps] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=eps] {
+  background-image: url("../icons/512px/eps.png");
+}
+
+.gallery__main-view--table div[data-ext=exe] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=exe] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=exe],
+.gallery__main-view--tile div[data-ext=exe] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=exe] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=exe],
+.editor__details div[data-ext=exe] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=exe] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=exe] {
+  background-image: url("../icons/512px/exe.png");
+}
+
+.gallery__main-view--table div[data-ext=flv] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=flv] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=flv],
+.gallery__main-view--tile div[data-ext=flv] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=flv] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=flv],
+.editor__details div[data-ext=flv] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=flv] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=flv] {
+  background-image: url("../icons/512px/flv.png");
+}
+
+.gallery__main-view--table div[data-ext=gif] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=gif] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=gif],
+.gallery__main-view--tile div[data-ext=gif] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=gif] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=gif],
+.editor__details div[data-ext=gif] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=gif] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=gif] {
+  background-image: url("../icons/512px/gif.png");
+}
+
+.gallery__main-view--table div[data-ext=h] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=h] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=h],
+.gallery__main-view--tile div[data-ext=h] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=h] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=h],
+.editor__details div[data-ext=h] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=h] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=h] {
+  background-image: url("../icons/512px/h.png");
+}
+
+.gallery__main-view--table div[data-ext=hpp] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=hpp] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=hpp],
+.gallery__main-view--tile div[data-ext=hpp] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=hpp] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=hpp],
+.editor__details div[data-ext=hpp] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=hpp] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=hpp] {
+  background-image: url("../icons/512px/hpp.png");
+}
+
+.gallery__main-view--table div[data-ext=html] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=html] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=html],
+.gallery__main-view--tile div[data-ext=html] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=html] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=html],
+.editor__details div[data-ext=html] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=html] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=html] {
+  background-image: url("../icons/512px/html.png");
+}
+
+.gallery__main-view--table div[data-ext=ics] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=ics] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=ics],
+.gallery__main-view--tile div[data-ext=ics] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=ics] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=ics],
+.editor__details div[data-ext=ics] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=ics] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=ics] {
+  background-image: url("../icons/512px/ics.png");
+}
+
+.gallery__main-view--table div[data-ext=iso] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=iso] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=iso],
+.gallery__main-view--tile div[data-ext=iso] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=iso] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=iso],
+.editor__details div[data-ext=iso] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=iso] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=iso] {
+  background-image: url("../icons/512px/iso.png");
+}
+
+.gallery__main-view--table div[data-ext=java] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=java] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=java],
+.gallery__main-view--tile div[data-ext=java] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=java] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=java],
+.editor__details div[data-ext=java] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=java] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=java] {
+  background-image: url("../icons/512px/java.png");
+}
+
+.gallery__main-view--table div[data-ext=jpg] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=jpg] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=jpg],
+.gallery__main-view--tile div[data-ext=jpg] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=jpg] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=jpg],
+.editor__details div[data-ext=jpg] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=jpg] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=jpg] {
+  background-image: url("../icons/512px/jpg.png");
+}
+
+.gallery__main-view--table div[data-ext=js] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=js] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=js],
+.gallery__main-view--tile div[data-ext=js] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=js] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=js],
+.editor__details div[data-ext=js] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=js] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=js] {
+  background-image: url("../icons/512px/js.png");
+}
+
+.gallery__main-view--table div[data-ext=key] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=key] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=key],
+.gallery__main-view--tile div[data-ext=key] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=key] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=key],
+.editor__details div[data-ext=key] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=key] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=key] {
+  background-image: url("../icons/512px/key.png");
+}
+
+.gallery__main-view--table div[data-ext=less] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=less] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=less],
+.gallery__main-view--tile div[data-ext=less] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=less] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=less],
+.editor__details div[data-ext=less] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=less] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=less] {
+  background-image: url("../icons/512px/less.png");
+}
+
+.gallery__main-view--table div[data-ext=mid] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=mid] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=mid],
+.gallery__main-view--tile div[data-ext=mid] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=mid] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=mid],
+.editor__details div[data-ext=mid] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=mid] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=mid] {
+  background-image: url("../icons/512px/mid.png");
+}
+
+.gallery__main-view--table div[data-ext=mp3] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=mp3] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=mp3],
+.gallery__main-view--tile div[data-ext=mp3] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=mp3] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=mp3],
+.editor__details div[data-ext=mp3] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=mp3] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=mp3] {
+  background-image: url("../icons/512px/mp3.png");
+}
+
+.gallery__main-view--table div[data-ext=mp4] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=mp4] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=mp4],
+.gallery__main-view--tile div[data-ext=mp4] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=mp4] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=mp4],
+.editor__details div[data-ext=mp4] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=mp4] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=mp4] {
+  background-image: url("../icons/512px/mp4.png");
+}
+
+.gallery__main-view--table div[data-ext=mpg] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=mpg] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=mpg],
+.gallery__main-view--tile div[data-ext=mpg] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=mpg] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=mpg],
+.editor__details div[data-ext=mpg] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=mpg] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=mpg] {
+  background-image: url("../icons/512px/mpg.png");
+}
+
+.gallery__main-view--table div[data-ext=odf] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=odf] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=odf],
+.gallery__main-view--tile div[data-ext=odf] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=odf] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=odf],
+.editor__details div[data-ext=odf] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=odf] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=odf] {
+  background-image: url("../icons/512px/odf.png");
+}
+
+.gallery__main-view--table div[data-ext=ods] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=ods] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=ods],
+.gallery__main-view--tile div[data-ext=ods] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=ods] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=ods],
+.editor__details div[data-ext=ods] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=ods] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=ods] {
+  background-image: url("../icons/512px/ods.png");
+}
+
+.gallery__main-view--table div[data-ext=odt] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=odt] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=odt],
+.gallery__main-view--tile div[data-ext=odt] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=odt] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=odt],
+.editor__details div[data-ext=odt] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=odt] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=odt] {
+  background-image: url("../icons/512px/odt.png");
+}
+
+.gallery__main-view--table div[data-ext=otp] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=otp] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=otp],
+.gallery__main-view--tile div[data-ext=otp] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=otp] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=otp],
+.editor__details div[data-ext=otp] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=otp] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=otp] {
+  background-image: url("../icons/512px/otp.png");
+}
+
+.gallery__main-view--table div[data-ext=ots] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=ots] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=ots],
+.gallery__main-view--tile div[data-ext=ots] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=ots] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=ots],
+.editor__details div[data-ext=ots] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=ots] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=ots] {
+  background-image: url("../icons/512px/ots.png");
+}
+
+.gallery__main-view--table div[data-ext=ott] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=ott] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=ott],
+.gallery__main-view--tile div[data-ext=ott] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=ott] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=ott],
+.editor__details div[data-ext=ott] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=ott] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=ott] {
+  background-image: url("../icons/512px/ott.png");
+}
+
+.gallery__main-view--table div[data-ext=pdf] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=pdf] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=pdf],
+.gallery__main-view--tile div[data-ext=pdf] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=pdf] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=pdf],
+.editor__details div[data-ext=pdf] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=pdf] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=pdf] {
+  background-image: url("../icons/512px/pdf.png");
+}
+
+.gallery__main-view--table div[data-ext=php] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=php] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=php],
+.gallery__main-view--tile div[data-ext=php] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=php] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=php],
+.editor__details div[data-ext=php] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=php] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=php] {
+  background-image: url("../icons/512px/php.png");
+}
+
+.gallery__main-view--table div[data-ext=png] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=png] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=png],
+.gallery__main-view--tile div[data-ext=png] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=png] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=png],
+.editor__details div[data-ext=png] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=png] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=png] {
+  background-image: url("../icons/512px/png.png");
+}
+
+.gallery__main-view--table div[data-ext=ppt] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=ppt] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=ppt],
+.gallery__main-view--tile div[data-ext=ppt] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=ppt] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=ppt],
+.editor__details div[data-ext=ppt] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=ppt] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=ppt] {
+  background-image: url("../icons/512px/ppt.png");
+}
+
+.gallery__main-view--table div[data-ext=psd] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=psd] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=psd],
+.gallery__main-view--tile div[data-ext=psd] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=psd] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=psd],
+.editor__details div[data-ext=psd] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=psd] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=psd] {
+  background-image: url("../icons/512px/psd.png");
+}
+
+.gallery__main-view--table div[data-ext=py] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=py] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=py],
+.gallery__main-view--tile div[data-ext=py] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=py] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=py],
+.editor__details div[data-ext=py] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=py] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=py] {
+  background-image: url("../icons/512px/py.png");
+}
+
+.gallery__main-view--table div[data-ext=qt] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=qt] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=qt],
+.gallery__main-view--tile div[data-ext=qt] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=qt] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=qt],
+.editor__details div[data-ext=qt] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=qt] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=qt] {
+  background-image: url("../icons/512px/qt.png");
+}
+
+.gallery__main-view--table div[data-ext=rar] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=rar] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=rar],
+.gallery__main-view--tile div[data-ext=rar] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=rar] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=rar],
+.editor__details div[data-ext=rar] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=rar] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=rar] {
+  background-image: url("../icons/512px/rar.png");
+}
+
+.gallery__main-view--table div[data-ext=rb] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=rb] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=rb],
+.gallery__main-view--tile div[data-ext=rb] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=rb] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=rb],
+.editor__details div[data-ext=rb] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=rb] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=rb] {
+  background-image: url("../icons/512px/rb.png");
+}
+
+.gallery__main-view--table div[data-ext=rtf] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=rtf] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=rtf],
+.gallery__main-view--tile div[data-ext=rtf] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=rtf] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=rtf],
+.editor__details div[data-ext=rtf] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=rtf] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=rtf] {
+  background-image: url("../icons/512px/rtf.png");
+}
+
+.gallery__main-view--table div[data-ext=sass] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=sass] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=sass],
+.gallery__main-view--tile div[data-ext=sass] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=sass] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=sass],
+.editor__details div[data-ext=sass] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=sass] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=sass] {
+  background-image: url("../icons/512px/sass.png");
+}
+
+.gallery__main-view--table div[data-ext=scss] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=scss] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=scss],
+.gallery__main-view--tile div[data-ext=scss] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=scss] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=scss],
+.editor__details div[data-ext=scss] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=scss] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=scss] {
+  background-image: url("../icons/512px/scss.png");
+}
+
+.gallery__main-view--table div[data-ext=sql] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=sql] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=sql],
+.gallery__main-view--tile div[data-ext=sql] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=sql] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=sql],
+.editor__details div[data-ext=sql] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=sql] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=sql] {
+  background-image: url("../icons/512px/sql.png");
+}
+
+.gallery__main-view--table div[data-ext=tga] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=tga] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=tga],
+.gallery__main-view--tile div[data-ext=tga] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=tga] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=tga],
+.editor__details div[data-ext=tga] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=tga] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=tga] {
+  background-image: url("../icons/512px/tga.png");
+}
+
+.gallery__main-view--table div[data-ext=tgz] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=tgz] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=tgz],
+.gallery__main-view--tile div[data-ext=tgz] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=tgz] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=tgz],
+.editor__details div[data-ext=tgz] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=tgz] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=tgz] {
+  background-image: url("../icons/512px/tgz.png");
+}
+
+.gallery__main-view--table div[data-ext=tiff] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=tiff] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=tiff],
+.gallery__main-view--tile div[data-ext=tiff] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=tiff] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=tiff],
+.editor__details div[data-ext=tiff] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=tiff] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=tiff] {
+  background-image: url("../icons/512px/tiff.png");
+}
+
+.gallery__main-view--table div[data-ext=txt] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=txt] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=txt],
+.gallery__main-view--tile div[data-ext=txt] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=txt] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=txt],
+.editor__details div[data-ext=txt] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=txt] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=txt] {
+  background-image: url("../icons/512px/txt.png");
+}
+
+.gallery__main-view--table div[data-ext=wav] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=wav] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=wav],
+.gallery__main-view--tile div[data-ext=wav] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=wav] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=wav],
+.editor__details div[data-ext=wav] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=wav] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=wav] {
+  background-image: url("../icons/512px/wav.png");
+}
+
+.gallery__main-view--table div[data-ext=xls] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=xls] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=xls],
+.gallery__main-view--tile div[data-ext=xls] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=xls] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=xls],
+.editor__details div[data-ext=xls] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=xls] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=xls] {
+  background-image: url("../icons/512px/xls.png");
+}
+
+.gallery__main-view--table div[data-ext=xlsx] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=xlsx] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=xlsx],
+.gallery__main-view--tile div[data-ext=xlsx] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=xlsx] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=xlsx],
+.editor__details div[data-ext=xlsx] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=xlsx] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=xlsx] {
+  background-image: url("../icons/512px/xlsx.png");
+}
+
+.gallery__main-view--table div[data-ext=xml] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=xml] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=xml],
+.gallery__main-view--tile div[data-ext=xml] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=xml] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=xml],
+.editor__details div[data-ext=xml] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=xml] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=xml] {
+  background-image: url("../icons/512px/xml.png");
+}
+
+.gallery__main-view--table div[data-ext=yml] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=yml] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=yml],
+.gallery__main-view--tile div[data-ext=yml] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=yml] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=yml],
+.editor__details div[data-ext=yml] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=yml] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=yml] {
+  background-image: url("../icons/512px/yml.png");
+}
+
+.gallery__main-view--table div[data-ext=zip] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--table .gallery__table-row[data-ext=zip] .gallery__table-image--document,
+.gallery__main-view--table .editor__thumbnail-container[data-ext=zip],
+.gallery__main-view--tile div[data-ext=zip] .gallery-item--document .gallery-item__thumbnail,
+.gallery__main-view--tile .gallery__table-row[data-ext=zip] .gallery__table-image--document,
+.gallery__main-view--tile .editor__thumbnail-container[data-ext=zip],
+.editor__details div[data-ext=zip] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .gallery__table-row[data-ext=zip] .gallery__table-image--document,
+.editor__details .editor__thumbnail-container[data-ext=zip] {
+  background-image: url("../icons/512px/zip.png");
+}
+
+/*# sourceMappingURL=asset-icons.css.map */

@@ -1,0 +1,51 @@
+// gallery tiles (+ editform thumbnail)
+.gallery__main-view--tile div[data-ext] .gallery-item--document .gallery-item__thumbnail,
+.editor__details .editor__thumbnail-container[data-ext]
+{
+  background-image: url('../icons/512px/_blank.png');
+  background-size: 92px 92px;
+}
+// table rows
+.gallery__main-view--table .gallery__table-row[data-ext] .gallery__table-image--document {
+  background-image: url('../icons/512px/_blank.png');
+}
+// editform thumbnail tweaks
+.editor__details .editor__thumbnail-container[data-ext]
+{
+  background-repeat: no-repeat;
+  background-position: center;
+  img {
+    opacity: 0;
+  }
+}
+// display filename below title (in table view)
+.AssetAdmin.LeftAndMain .gallery__table-column--title span[data-filename] {
+  margin-top: -6px;
+  &:after {
+    content: attr(data-name);
+    display: block;
+    position: absolute;
+    font-size: 10px;
+    margin-top: -4px;
+    color: #ced3d9;
+  }
+}
+
+// Apply specific icons to filetypes
+$extensions:  aac, ai, aiff, avi, bmp, c, cpp, css, dat, dmg, doc, dotx, dwg, dxf, eps, exe, flv, gif, h, hpp, html,
+              ics, iso, java, jpg, js, key, less, mid, mp3, mp4, mpg, odf, ods, odt, otp, ots, ott, pdf, php, png,
+              ppt, psd, py, qt, rar, rb, rtf, sass, scss, sql, tga, tgz, tiff, txt, wav, xls, xlsx, xml, yml, zip;
+
+@each $ext in $extensions {
+  .gallery__main-view--table,
+  .gallery__main-view--tile,
+  .editor__details
+  {
+    div[data-ext="#{$ext}"] .gallery-item--document .gallery-item__thumbnail,
+    .gallery__table-row[data-ext="#{$ext}"] .gallery__table-image--document,
+    .editor__thumbnail-container[data-ext="#{$ext}"]
+    {
+      background-image: url('../icons/512px/#{$ext}.png');
+    }
+  }
+}
