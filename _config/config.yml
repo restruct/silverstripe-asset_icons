@@ -1,0 +1,8 @@
+---
+Name: 'asset-icons'
+---
+SilverStripe\Admin\LeftAndMain:
+  extra_requirements_javascript:
+    - restruct/silverstripe-asset_icons:client/dist/js/asset-icons.js
+  extra_requirements_css:
+    - restruct/silverstripe-asset_icons:client/dist/styles/asset-icons.css

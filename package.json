@@ -1,0 +1,13 @@
+{
+  "name": "silverstripe-asset-icons",
+  "private": true,
+  "scripts": {
+    "dev": "vite build --mode development",
+    "build": "vite build",
+    "preview": "echo 'Visit /admin/asset-icons-preview in your browser'"
+  },
+  "devDependencies": {
+    "sass": "^1.80.0",
+    "vite": "^6.0.0"
+  }
+}

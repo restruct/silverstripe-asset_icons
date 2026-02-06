@@ -1,0 +1,225 @@
+@use "sass:map";
+
+// ==========================================================================
+// Asset Icons — Category SVGs with extension text overlay
+// ==========================================================================
+//
+// Extension → Category mapping + Category → SVG icon.
+// Unknown extensions get the default gray blank icon with visible extension text.
+// Adding a new extension: add it to $ext-categories below and rebuild.
+// Adding a new category: create an SVG in ../icons/, add to both maps, rebuild.
+//
+
+// --------------------------------------------------------------------------
+// 1. Extension → Category map
+// --------------------------------------------------------------------------
+
+$ext-categories: (
+  // PDF
+  pdf: pdf,
+
+  // Document
+  doc: document, docx: document, docm: document, dotx: document,
+  odt: document, ott: document, rtf: document, txt: document,
+  md: document, pages: document, wpd: document, wps: document,
+
+  // Spreadsheet
+  xls: spreadsheet, xlsx: spreadsheet, xlsm: spreadsheet, xltx: spreadsheet,
+  ods: spreadsheet, ots: spreadsheet, csv: spreadsheet, tsv: spreadsheet,
+  numbers: spreadsheet,
+
+  // Presentation
+  ppt: presentation, pptx: presentation, pptm: presentation, potx: presentation,
+  odp: presentation, otp: presentation, key: presentation,
+
+  // Archive
+  zip: archive, 7z: archive, rar: archive, tar: archive,
+  gz: archive, tgz: archive, bz2: archive, xz: archive,
+  cab: archive, jar: archive, war: archive, deb: archive, rpm: archive,
+
+  // Audio
+  mp3: audio, wav: audio, aac: audio, flac: audio,
+  ogg: audio, opus: audio, m4a: audio, wma: audio,
+  aiff: audio, aif: audio, mid: audio, midi: audio,
+
+  // Video
+  mp4: video, avi: video, mov: video, mkv: video,
+  webm: video, flv: video, wmv: video, mpg: video,
+  mpeg: video, m4v: video, 3gp: video, ogv: video, vob: video,
+
+  // Code
+  js: code, jsx: code, ts: code, tsx: code,
+  php: code, py: code, rb: code, java: code,
+  c: code, cpp: code, cs: code, go: code,
+  rs: code, swift: code, sh: code, bat: code,
+  lua: code, r: code, dart: code, kt: code,
+  scala: code, h: code, hpp: code, asm: code,
+  pl: code, ex: code,
+
+  // Markup / config
+  html: markup, htm: markup, xml: markup, xsl: markup, xslt: markup,
+  json: markup, yaml: markup, yml: markup, toml: markup,
+  ini: markup, cfg: markup, conf: markup, env: markup,
+  css: markup, scss: markup, sass: markup, less: markup,
+
+  // Vector graphics
+  ai: vector, eps: vector, svg: vector,
+
+  // Bitmap / raster (non-thumbnail formats — raw/design files)
+  psd: image, raw: image, cr2: image, cr3: image, nef: image, dng: image,
+  tif: image, tiff: image, bmp: image, tga: image, xcf: image,
+  indd: image, sketch: image,
+
+  // CAD / 3D
+  dwg: cad, dxf: cad,
+  vsd: cad, vsdx: cad, vdx: cad, vst: cad,
+  skp: cad, blend: cad, 3ds: cad, fbx: cad,
+  obj: cad, stl: cad, step: cad, stp: cad, iges: cad, igs: cad,
+
+  // Database
+  sql: database, db: database, sqlite: database, sqlite3: database,
+  mdb: database, accdb: database, dbf: database, odb: database,
+
+  // Font
+  ttf: font, otf: font, woff: font, woff2: font,
+  eot: font, pfb: font, pfm: font,
+
+  // System / executable
+  exe: system, dll: system, bin: system, iso: system,
+  dmg: system, app: system, msi: system, sys: system,
+  apk: system, ipa: system,
+
+  // E-book
+  epub: ebook, mobi: ebook, azw: ebook, azw3: ebook,
+  cbz: ebook, cbr: ebook, djvu: ebook,
+
+  // PLC / industrial (Siemens TIA Portal, etc.)
+  e80: plc, lsc: plc, zap15_1: plc, awl: plc, gxw: plc, acd: plc, s7p: plc,
+  // TIA Portal versioned formats
+  ap17: plc, ap18: plc, ap19: plc, ap20: plc,
+  zap18: plc, zap19: plc, zap20: plc,
+  // TIA Portal export/import formats
+  scl: plc, udt: plc, aml: plc, addin: plc, tia: plc, axml: plc,
+);
+
+// --------------------------------------------------------------------------
+// 2. Category → Icon SVG map
+// --------------------------------------------------------------------------
+
+$category-icons: (
+  default:      '../../icons/blank.svg',
+  pdf:          '../../icons/pdf.svg',
+  document:     '../../icons/document.svg',
+  spreadsheet:  '../../icons/spreadsheet.svg',
+  presentation: '../../icons/presentation.svg',
+  archive:      '../../icons/archive.svg',
+  audio:        '../../icons/audio.svg',
+  video:        '../../icons/video.svg',
+  code:         '../../icons/code.svg',
+  markup:       '../../icons/markup.svg',
+  vector:       '../../icons/vector.svg',
+  image:        '../../icons/image.svg',
+  cad:          '../../icons/cad.svg',
+  database:     '../../icons/database.svg',
+  font:         '../../icons/font.svg',
+  system:       '../../icons/system.svg',
+  ebook:        '../../icons/ebook.svg',
+  plc:          '../../icons/plc.svg',
+);
+
+// --------------------------------------------------------------------------
+// 3. Shared icon selectors (tile, table, edit form)
+// --------------------------------------------------------------------------
+//
+// JS sets data-ext on the thumbnail element directly, so we can target
+// [data-ext] without depending on SS's gallery-item--{category} classes.
+// JS skips items where category=image (SS generates real thumbnails for those).
+//
+
+// Scoping: only target items within the AssetAdmin
+.AssetAdmin {
+
+  // --- Table view: show actual filename below title ---
+  .gallery__table-column--title span[data-filename] {
+    margin-top: -6px;
+    &:after {
+      content: attr(data-name);
+      display: block;
+      position: absolute;
+      font-size: 10px;
+      margin-top: -4px;
+      color: #ced3d9;
+    }
+  }
+
+  // --- Default icon for ANY item with data-ext ---
+  .gallery-item__thumbnail[data-ext],
+  .gallery__table-image[data-ext],
+  .editor__thumbnail-container[data-ext] {
+    background-image: url('../../icons/blank.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  // Edit form thumbnail: hide the img when we show our icon
+  .editor__details .editor__thumbnail-container[data-ext] {
+    img {
+      opacity: 0;
+    }
+  }
+
+  // --- Extension badge base styles ---
+  // TODO: Badge positioning on tiles needs work - commented out for now
+  // .gallery-item__thumbnail[data-ext]:after,
+  .gallery__table-image[data-ext]:after,
+  .editor__thumbnail-container[data-ext]:after {
+    content: attr(data-ext);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: .6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    color: #fff;
+    background: rgba(0,0,0,.55);
+    padding: 2px 6px;
+    border-radius: 3px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  // --- Per-extension icon overrides (generated from maps) ---
+  @each $ext, $cat in $ext-categories {
+    $icon: map.get($category-icons, $cat);
+
+    .gallery-item__thumbnail[data-ext="#{$ext}"],
+    .gallery__table-image[data-ext="#{$ext}"],
+    .editor__thumbnail-container[data-ext="#{$ext}"] {
+      background-image: url('#{$icon}');
+    }
+  }
+
+  // --- Tile view: icon sizing ---
+  .gallery-item__thumbnail[data-ext] {
+    background-size: 70px auto;
+    // TODO: badge positioning commented out - needs work
+    // &:after {
+    //   bottom: 18%;
+    // }
+  }
+
+  // --- Table view: icon sizing + badge position ---
+  .gallery__table-image[data-ext] {
+    background-size: contain;
+    &:after {
+      bottom: 0;
+    }
+  }
+
+  // --- Edit form: badge position ---
+  .editor__thumbnail-container[data-ext]:after {
+    bottom: -8px;
+  }
+}
