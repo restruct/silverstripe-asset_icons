@@ -24,5 +24,10 @@
         "expose": [
             "client/"
         ]
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
     }
 }

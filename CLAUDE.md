@@ -127,8 +127,8 @@ def parse_path_bounds(d):
     if m_match:
         start_x = float(m_match.group(1))
         start_y = float(m_match.group(2))
-        # ViewBox: 7 units left of start, 3 units up, 8.5 wide, 11 tall
-        return (start_x - 7, start_y - 3, 8.5, 11)
+        # ViewBox: 7 units left of start, 3.4 units up, 8.5 wide, 10.5 tall
+        return (start_x - 7, start_y - 3.4, 8.5, 10.5)
     return None
 
 # Output filename mapping (source name → SCSS name)
@@ -215,3 +215,35 @@ composer vendor-expose
    - Add extensions to `$ext-categories` map
 3. Optionally add the category to `icons-source.svg` for reference
 4. Run `npm run build`
+
+## Local Development (Path Repository)
+
+When developing this module locally using a composer path repository (symlink), the vendor plugin exposes files to the wrong path. After `composer vendor-expose`, files end up in `_resources/_dev/silverstripe-asset_icons/` instead of `_resources/vendor/restruct/silverstripe-asset_icons/`.
+
+**Workaround after building:**
+```bash
+# After npm run build, manually copy to correct expose path:
+mkdir -p public/_resources/vendor/restruct/silverstripe-asset_icons/client
+cp -R _dev/silverstripe-asset_icons/client/* public/_resources/vendor/restruct/silverstripe-asset_icons/client/
+```
+
+Or add this to the project's `composer.json` scripts:
+```json
+"scripts": {
+    "post-install-cmd": [...],
+    "expose-asset-icons": "mkdir -p public/_resources/vendor/restruct/silverstripe-asset_icons/client && cp -R _dev/silverstripe-asset_icons/client/* public/_resources/vendor/restruct/silverstripe-asset_icons/client/"
+}
+```
+
+## JS Architecture
+
+The JavaScript (`client/src/js/asset-icons.js`) works by:
+
+1. **Listening for DOM events** from `restruct/silverstripe-simpler` module (`DOMNodesInserted`)
+2. **Walking React fiber tree** to find file data (extension, category, filename)
+3. **Setting `data-ext` attributes** on gallery items so CSS can apply icons
+
+The fiber data is found in `memoizedProps` under these keys (checked in order):
+- `mp.item.extension` — tile view items
+- `mp.rowData.extension` — some table views
+- `mp.data.extension` — table view rows (Griddle)

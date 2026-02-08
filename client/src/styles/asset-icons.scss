@@ -128,16 +128,29 @@ $category-icons: (
 );
 
 // --------------------------------------------------------------------------
-// 3. Shared icon selectors (tile, table, edit form)
+// 3. SS Category → Our Category map (for immediate CSS application)
 // --------------------------------------------------------------------------
 //
-// JS sets data-ext on the thumbnail element directly, so we can target
-// [data-ext] without depending on SS's gallery-item--{category} classes.
-// JS skips items where category=image (SS generates real thumbnails for those).
+// SS5 uses broad categories (document, archive, audio, video, image).
+// We map these to our icons so they apply IMMEDIATELY on render (no JS needed).
+// JS then sets data-ext for more specific icons (e.g., PDF instead of document).
 //
 
-// Scoping: only target items within the AssetAdmin
-.AssetAdmin {
+$ss-category-icons: (
+  document:     '../../icons/document.svg',
+  archive:      '../../icons/archive.svg',
+  audio:        '../../icons/audio.svg',
+  video:        '../../icons/video.svg',
+  // 'image' category skipped - SS generates real thumbnails for those
+);
+
+// --------------------------------------------------------------------------
+// 4. Shared icon selectors (tile, table, edit form)
+// --------------------------------------------------------------------------
+
+// Scoping: target items within AssetAdmin and UploadField modals
+.AssetAdmin,
+.insert-media-modal {
 
   // --- Table view: show actual filename below title ---
   .gallery__table-column--title span[data-filename] {
@@ -152,14 +165,33 @@ $category-icons: (
     }
   }
 
-  // --- Default icon for ANY item with data-ext ---
+  // --- IMMEDIATE: Apply icons based on SS category classes (no JS needed) ---
+  // This prevents the flash of default icons before JS runs.
+  @each $ss-cat, $icon in $ss-category-icons {
+    .gallery-item--#{$ss-cat} .gallery-item__thumbnail,
+    .gallery__table-row--#{$ss-cat} .gallery__table-image {
+      background-image: url('#{$icon}');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  // Tile view sizing for SS category classes
+  @each $ss-cat, $icon in $ss-category-icons {
+    .gallery-item--#{$ss-cat} .gallery-item__thumbnail {
+      background-size: 70px auto;
+    }
+  }
+
+  // --- Default icon for ANY item with data-ext (JS-enhanced) ---
   .gallery-item__thumbnail[data-ext],
   .gallery__table-image[data-ext],
   .editor__thumbnail-container[data-ext] {
     background-image: url('../../icons/blank.svg');
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center 55%;  // Slightly below center to add top padding
   }
 
   // Edit form thumbnail: hide the img when we show our icon
@@ -170,25 +202,25 @@ $category-icons: (
   }
 
   // --- Extension badge base styles ---
-  // TODO: Badge positioning on tiles needs work - commented out for now
+  // TODO: Badge positioning needs work - commented out for now
   // .gallery-item__thumbnail[data-ext]:after,
-  .gallery__table-image[data-ext]:after,
-  .editor__thumbnail-container[data-ext]:after {
-    content: attr(data-ext);
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: .6rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .02em;
-    color: #fff;
-    background: rgba(0,0,0,.55);
-    padding: 2px 6px;
-    border-radius: 3px;
-    white-space: nowrap;
-    pointer-events: none;
-  }
+  // .gallery__table-image[data-ext]:after,
+  // .editor__thumbnail-container[data-ext]:after {
+  //   content: attr(data-ext);
+  //   position: absolute;
+  //   left: 50%;
+  //   transform: translateX(-50%);
+  //   font-size: .6rem;
+  //   font-weight: 700;
+  //   text-transform: uppercase;
+  //   letter-spacing: .02em;
+  //   color: #fff;
+  //   background: rgba(0,0,0,.55);
+  //   padding: 2px 6px;
+  //   border-radius: 3px;
+  //   white-space: nowrap;
+  //   pointer-events: none;
+  // }
 
   // --- Per-extension icon overrides (generated from maps) ---
   @each $ext, $cat in $ext-categories {
@@ -213,13 +245,15 @@ $category-icons: (
   // --- Table view: icon sizing + badge position ---
   .gallery__table-image[data-ext] {
     background-size: contain;
-    &:after {
-      bottom: 0;
-    }
+    // TODO: badge positioning commented out - needs work
+    //&:after {
+    //  bottom: 0;
+    //}
   }
 
-  // --- Edit form: badge position ---
-  .editor__thumbnail-container[data-ext]:after {
-    bottom: -8px;
+  // --- Edit form: icon sizing ---
+  .editor__thumbnail-container[data-ext] {
+    background-size: contain;
+    // Badge commented out - see extension badge section above
   }
 }

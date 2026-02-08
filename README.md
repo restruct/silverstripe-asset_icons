@@ -1,6 +1,6 @@
 # SilverStripe Asset Icons
 
-Replaces the default document thumbnails in SilverStripe's Asset Admin with **category-colored SVG icons** and a **CSS extension text overlay**. Handles any file extension automatically — exotic ones like `.zap15_1` just work.
+Replaces the default document thumbnails in SilverStripe's Asset Admin with **category-colored SVG icons**. Works in AssetAdmin (grid & list view) and UploadField modals. Handles any file extension automatically.
 
 ![](docs/asset-admin-icons.png)
 
@@ -11,10 +11,10 @@ Replaces the default document thumbnails in SilverStripe's Asset Admin with **ca
 
 ## How it works
 
-1. **JavaScript** reads React fiber data from gallery items and sets `data-ext` attributes on the DOM
-2. **SCSS** maps ~170 file extensions to 18 categories, each with a colored SVG icon
-3. **CSS `::after`** overlays the actual file extension as text on every icon
-4. Unknown extensions get the default gray icon with the extension text still visible
+1. **CSS** immediately applies category icons using SilverStripe's built-in classes (`gallery-item--document`, `gallery-item--archive`, etc.) — **no flash of default icons**
+2. **JavaScript** reads React fiber data and sets `data-ext` attributes for more specific icons (e.g., PDF instead of generic document)
+3. **SCSS** maps ~170 file extensions to 18 categories, each with a colored SVG icon
+4. **External SVGs** are loaded on-demand and cached by the browser (76KB CSS + ~31KB SVGs)
 
 Regular images don't need icons — SilverStripe generates thumbnails for those. This module targets document-category files only.
 
@@ -63,37 +63,33 @@ Then rebuild: `npm run build`
 ## Build
 
 ```bash
-cd a-silverstripe-asset_icons
+cd silverstripe-asset_icons
 npm install
-npm run build       # production (minified, SVGs inlined)
-npm run dev         # development
+npm run build       # production build
 ```
 
 After building, run `composer vendor-expose` to re-expose client assets.
-
-## Dev preview
-
-Visit `/admin/asset-icons-preview` in your browser to see all category icons side by side.
 
 ## File structure
 
 ```
 client/
-  icons/              # 17 category SVG source files
+  icons/              # 18 category SVG source files
+  icons-source.svg    # Master Inkscape file with all icons
   src/
     js/               # Vanilla JS source (React fiber → data-ext)
     styles/           # SCSS source
   dist/
-    js/               # Copied JS (served by SilverStripe)
-    styles/           # Compiled CSS (SVGs inlined as data URIs)
+    icons/            # External SVG files (loaded on-demand, cached)
+    js/               # Copied JS
+    styles/           # Compiled CSS (~76KB)
 src/
-  Dev/                # IconsPreviewController
+  Dev/                # IconsPreviewController (visit /admin/asset-icons-preview)
 ```
 
 ## TODO
 
-- [ ] **Tile view extension badges**: Badge positioning on gallery tiles needs work — currently disabled (only shows in table view and edit form)
-- [ ] **SVG compatibility**: Check if this module's SVG handling interferes with `restruct/silverstripe-svg-images` module
+- [ ] **Extension text badges**: Badge positioning needs work — currently disabled
 
 ## Credits
 

@@ -36,7 +36,8 @@
     }
 
     /**
-     * Walk fiber tree upward to find a fiber whose props contain `item` or `rowData`.
+     * Walk fiber tree upward to find file data.
+     * Checks for `item`, `rowData`, or `data` props containing extension info.
      * Returns the item data object or null.
      */
     function findItemData(el) {
@@ -45,6 +46,7 @@
         if (props) {
             if (props.item && props.item.extension) return props.item;
             if (props.rowData && props.rowData.extension) return props.rowData;
+            if (props.data && props.data.extension) return props.data;
         }
         // Walk up the fiber tree
         let fiber = getFiber(el);
@@ -54,6 +56,7 @@
             if (mp) {
                 if (mp.item && mp.item.extension) return mp.item;
                 if (mp.rowData && mp.rowData.extension) return mp.rowData;
+                if (mp.data && mp.data.extension) return mp.data;
             }
             fiber = fiber.return;
             depth++;
