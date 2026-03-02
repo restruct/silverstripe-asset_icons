@@ -13,7 +13,8 @@
     ],
     "require": {
 		"silverstripe/asset-admin": "~2.0",
-		"restruct/silverstripe-simpler": "^0"
+		"restruct/silverstripe-simpler": "^0",
+		"restruct/xpdf-static": "~1.0"
     },
     "autoload": {
         "psr-4": {

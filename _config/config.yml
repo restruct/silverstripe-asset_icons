@@ -6,3 +6,10 @@ SilverStripe\Admin\LeftAndMain:
     - restruct/silverstripe-asset_icons:client/dist/js/asset-icons.js
   extra_requirements_css:
     - restruct/silverstripe-asset_icons:client/dist/styles/asset-icons.css
+
+# Renderable preview: generates PNG thumbnails for non-image files (PDF, SVG, etc.)
+# using external CLI tools (Ghostscript, rsvg-convert).
+# Disabled by default — opt in per project.
+SilverStripe\Assets\File:
+  extensions:
+    - Restruct\SilverStripe\AssetIcons\Renderable\RenderablePreviewExtension

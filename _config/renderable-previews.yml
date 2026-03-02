@@ -1,0 +1,13 @@
+---
+Name: 'asset-icons-renderable-previews'
+After: '#asset-icons'
+---
+# Renderable preview support — generates PNG previews for PDFs, SVGs, etc.
+# Disabled by default. Enable in your project config:
+#
+#   Restruct\SilverStripe\AssetIcons\Renderable\RenderablePreviewExtension:
+#     enable_renderable_previews: true
+#
+SilverStripe\Assets\File:
+  extensions:
+    RenderablePreview: Restruct\SilverStripe\AssetIcons\Renderable\RenderablePreviewExtension
