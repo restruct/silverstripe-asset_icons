@@ -1,6 +1,8 @@
 ---
 Name: 'asset-icons-renderable-previews'
-After: '#asset-icons'
+After:
+  - '#asset-icons'
+  - '#asset-admin-graphql-thumbnails'
 ---
 # Renderable preview support — generates PNG previews for PDFs, SVGs, etc.
 # Disabled by default. Enable in your project config:
@@ -11,3 +13,13 @@ After: '#asset-icons'
 SilverStripe\Assets\File:
   extensions:
     RenderablePreview: Restruct\SilverStripe\AssetIcons\Renderable\RenderablePreviewExtension
+
+# Override the GraphQL-specific ThumbnailGenerator so rendered previews
+# appear as the `thumbnail` field for non-image files.
+# Only targets the .graphql named service — no side effects on UploadField
+# or other ThumbnailGenerator consumers.
+SilverStripe\Core\Injector\Injector:
+  SilverStripe\AssetAdmin\Model\ThumbnailGenerator.graphql:
+    class: Restruct\SilverStripe\AssetIcons\Renderable\RenderableThumbnailGenerator
+    properties:
+      Generates: false

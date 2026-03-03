@@ -68,27 +68,38 @@ class RenderablePreviewExtension extends Extension implements Flushable
      */
     public function updatePreviewLink(&$link, $action = null)
     {
+        $url = $this->getRenderedPreviewURL();
+        if ($url) {
+            $link = $url;
+        }
+    }
+
+    /**
+     * Get the rendered preview URL for this file, or null if not available.
+     *
+     * Standalone method so RenderableThumbnailGenerator can call it directly
+     * from the GraphQL thumbnail resolution path (no fallback to icon).
+     */
+    public function getRenderedPreviewURL(): ?string
+    {
         if (!static::config()->get('enable_renderable_previews')) {
-            return;
+            return null;
         }
 
         /** @var File $file */
         $file = $this->getOwner();
 
-        # Images already have native thumbnails via Image::PreviewLink()
+        # Images already have native thumbnails
         if ($file->getIsImage()) {
-            return;
+            return null;
         }
 
         $renderer = $this->getRendererForFile($file);
         if (!$renderer) {
-            return;
+            return null;
         }
 
-        $url = $this->getOrCreatePreview($file, $renderer);
-        if ($url) {
-            $link = $url;
-        }
+        return $this->getOrCreatePreview($file, $renderer);
     }
 
     /**

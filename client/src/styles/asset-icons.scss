@@ -201,45 +201,32 @@ $ss-category-icons: (
     }
   }
 
-  // --- Extension badge base styles ---
-  // TODO: Badge positioning needs work - commented out for now
-  // .gallery-item__thumbnail[data-ext]:after,
-  // .gallery__table-image[data-ext]:after,
-  // .editor__thumbnail-container[data-ext]:after {
-  //   content: attr(data-ext);
-  //   position: absolute;
-  //   left: 50%;
-  //   transform: translateX(-50%);
-  //   font-size: .6rem;
-  //   font-weight: 700;
-  //   text-transform: uppercase;
-  //   letter-spacing: .02em;
-  //   color: #fff;
-  //   background: rgba(0,0,0,.55);
-  //   padding: 2px 6px;
-  //   border-radius: 3px;
-  //   white-space: nowrap;
-  //   pointer-events: none;
-  // }
-
-  // --- Rendered preview override ---
-  // When RenderablePreviewExtension provides a real PNG preview (PDFs, SVGs, etc.),
-  // the JS sets data-rendered-preview + inline background-image. Suppress the
-  // category icon so the actual preview shows through.
-  .gallery-item__thumbnail[data-rendered-preview],
-  .gallery__table-image[data-rendered-preview],
-  .editor__thumbnail-container[data-rendered-preview] {
-    // background-image is set inline by JS — just override the sizing
-    background-size: contain !important;
-    background-position: center top !important;
-    background-repeat: no-repeat !important;
+  // --- File type badge on rendered previews ---
+  // Shows "PDF", "SVG" etc. on thumbnails that have a rendered preview,
+  // so users can distinguish them from actual images.
+  // Only targets [data-preview] — files with category icons don't need it.
+  .gallery-item__thumbnail[data-preview],
+  .gallery__table-image[data-preview] {
+    position: relative; // needed for ::after badge positioning
   }
 
-  // In the edit panel, also show the preview over the img element
-  .editor__details .editor__thumbnail-container[data-rendered-preview] {
-    img {
-      opacity: 0;
-    }
+  .gallery-item__thumbnail[data-preview]::after,
+  .gallery__table-image[data-preview]::after {
+    content: attr(data-ext);
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    font-size: .6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    color: #fff;
+    background: rgba(0,0,0,.55);
+    padding: 1px 5px;
+    border-radius: 3px;
+    white-space: nowrap;
+    pointer-events: none;
+    line-height: 1.4;
   }
 
   // --- Per-extension icon overrides (generated from maps) ---
@@ -256,24 +243,15 @@ $ss-category-icons: (
   // --- Tile view: icon sizing ---
   .gallery-item__thumbnail[data-ext] {
     background-size: 70px auto;
-    // TODO: badge positioning commented out - needs work
-    // &:after {
-    //   bottom: 18%;
-    // }
   }
 
-  // --- Table view: icon sizing + badge position ---
+  // --- Table view: icon sizing ---
   .gallery__table-image[data-ext] {
     background-size: contain;
-    // TODO: badge positioning commented out - needs work
-    //&:after {
-    //  bottom: 0;
-    //}
   }
 
   // --- Edit form: icon sizing ---
   .editor__thumbnail-container[data-ext] {
     background-size: contain;
-    // Badge commented out - see extension badge section above
   }
 }

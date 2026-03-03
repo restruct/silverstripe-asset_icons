@@ -1,6 +1,6 @@
 # SilverStripe Asset Icons
 
-Replaces the default document thumbnails in SilverStripe's Asset Admin with **category-colored SVG icons**. Works in AssetAdmin (grid & list view) and UploadField modals. Handles any file extension automatically.
+Replaces the default document thumbnails in SilverStripe's Asset Admin with **category-colored SVG icons** and **rendered preview thumbnails**. Works in AssetAdmin (grid & list view, edit panel) and UploadField modals. Handles any file extension automatically.
 
 ![](docs/asset-admin-icons.png)
 
@@ -8,8 +8,11 @@ Replaces the default document thumbnails in SilverStripe's Asset Admin with **ca
 
 - SilverStripe 5 (`silverstripe/asset-admin: ~2.0`)
 - `restruct/silverstripe-simpler` (provides DOMNodesInserted events)
+- `restruct/xpdf-static` (bundled PDF renderer, no system dependencies)
 
 ## How it works
+
+### Category icons
 
 1. **CSS** immediately applies category icons using SilverStripe's built-in classes (`gallery-item--document`, `gallery-item--archive`, etc.) — **no flash of default icons**
 2. **JavaScript** reads React fiber data and sets `data-ext` attributes for more specific icons (e.g., PDF instead of generic document)
@@ -17,6 +20,52 @@ Replaces the default document thumbnails in SilverStripe's Asset Admin with **ca
 4. **External SVGs** are loaded on-demand and cached by the browser (76KB CSS + ~31KB SVGs)
 
 Regular images don't need icons — SilverStripe generates thumbnails for those. This module targets document-category files only.
+
+### Rendered preview thumbnails
+
+For file types that can be rendered to images (PDFs, SVGs, EPS, etc.), the module generates **actual PNG preview thumbnails** instead of showing a generic category icon. Previews appear in tile view, table view, and the edit panel.
+
+Previews are generated on-demand the first time a file appears in Asset Admin and stored as file variants in the AssetStore. A small file-type badge (e.g. "PDF") is shown on the thumbnail so users can distinguish previews from actual images.
+
+**How it works under the hood:**
+
+- `RenderablePreviewExtension` (on `File`) generates PNG variants using CLI renderers (xpdf for PDFs, Ghostscript for EPS/PS/AI, rsvg-convert for SVGs)
+- `RenderableThumbnailGenerator` overrides the GraphQL-specific `ThumbnailGenerator` service via Injector, so the `thumbnail` field returns the preview URL for non-image files
+- Since React's `GalleryItem` only applies `backgroundImage` for image-category files, the JS applies the preview as an inline style for non-image files that have a `thumbnail` value
+
+**Enable in your project config:**
+
+```yaml
+Restruct\SilverStripe\AssetIcons\Renderable\RenderablePreviewExtension:
+  enable_renderable_previews: true
+```
+
+**Configuration options:**
+
+```yaml
+Restruct\SilverStripe\AssetIcons\Renderable\RenderablePreviewExtension:
+  enable_renderable_previews: true
+  preview_width: 800           # target width for rendered PNG
+  preview_height: 800          # target height for rendered PNG
+  max_renders_per_request: 5   # prevents timeouts on first load
+  renderers:                   # extension => renderer class
+    pdf: Restruct\SilverStripe\AssetIcons\Renderable\XpdfRenderer
+    eps: Restruct\SilverStripe\AssetIcons\Renderable\GhostscriptRenderer
+    svg: Restruct\SilverStripe\AssetIcons\Renderable\SvgRenderer
+```
+
+**Supported formats and their requirements:**
+
+| Format | Renderer | Requirement |
+|--------|----------|-------------|
+| PDF | XpdfRenderer | Bundled via `restruct/xpdf-static` — no system deps |
+| EPS, PS, AI | GhostscriptRenderer | System `gs` (Ghostscript) |
+| SVG, SVGZ | SvgRenderer | System `rsvg-convert` (librsvg) |
+
+**Known limitations:**
+
+- Preview variants inherit the original file extension (e.g. `.pdf`) but contain PNG data. Browsers handle this via MIME sniffing.
+- Not tested with protected/draft files (the module assumes staging is removed).
 
 ## Categories
 
@@ -77,19 +126,22 @@ client/
   icons/              # 18 category SVG source files
   icons-source.svg    # Master Inkscape file with all icons
   src/
-    js/               # Vanilla JS source (React fiber → data-ext)
+    js/               # Vanilla JS source (React fiber → data-ext + preview)
     styles/           # SCSS source
   dist/
     icons/            # External SVG files (loaded on-demand, cached)
     js/               # Copied JS
-    styles/           # Compiled CSS (~76KB)
+    styles/           # Compiled CSS (~77KB)
 src/
   Dev/                # IconsPreviewController (visit /admin/asset-icons-preview)
+  Renderable/         # Rendered preview system
+    RenderablePreviewExtension.php   # File extension: generates & stores variants
+    RenderableThumbnailGenerator.php # Injector override for GraphQL thumbnails
+    RendererInterface.php            # Contract for CLI renderers
+    XpdfRenderer.php                 # PDF → PNG (bundled binary)
+    GhostscriptRenderer.php          # EPS/PS/AI → PNG (system gs)
+    SvgRenderer.php                  # SVG → PNG (system rsvg-convert)
 ```
-
-## TODO
-
-- [ ] **Extension text badges**: Badge positioning needs work — currently disabled
 
 ## Credits
 

@@ -4,10 +4,11 @@
  * Sets data-ext attributes on gallery items so CSS can apply category icons
  * and extension text overlays. Works with both tile and table views.
  *
- * Also applies rendered preview thumbnails (from RenderablePreviewExtension)
- * for PDFs, SVGs, and other renderable file types. Preview URLs are derived
- * from the file URL (inserting __renderedpreview variant) and verified via
- * Image preload before applying.
+ * Rendered preview thumbnails (for PDFs, SVGs, etc.) are populated server-side
+ * via RenderableThumbnailGenerator into the GraphQL `thumbnail` field. However,
+ * React's GalleryItem only applies backgroundImage for image-category files,
+ * so this JS applies the thumbnail as inline style for non-image files that
+ * have a rendered preview (itemData.thumbnail is truthy).
  *
  * React 18 uses __reactFiber$ and __reactProps$ (with random suffix)
  * instead of React 16's __reactInternalInstance / __reactEventHandlers.
@@ -69,158 +70,17 @@
         return null;
     }
 
-    // -----------------------------------------------------------------------
-    // Rendered preview support
-    //
-    // The GraphQL data doesn't include the rendered preview URL (thumbnail
-    // is null for non-images). Instead, we derive the variant URL from the
-    // file's public URL and verify it exists via Image preload.
-    // -----------------------------------------------------------------------
-
-    // Extensions that may have rendered previews (matches PHP config)
-    var RENDERABLE_EXTS = ['pdf', 'eps', 'ps', 'ai', 'svg', 'svgz'];
-
-    // Cache: variant URL -> true (exists) / false (doesn't exist)
-    var previewChecked = {};
-
-    // Collected preview URLs to inject as CSS rules (elId -> url)
-    var previewUrls = {};
-
-    /**
-     * Derive the __renderedpreview variant URL from a file's public URL.
-     * Keeps original extension — the variant is PNG data but stored with the
-     * source extension (AssetStore requires matching base filename).
-     * CSS background-image does MIME sniffing so it renders PNG bytes fine.
-     * E.g. /assets/document.pdf -> /assets/document__renderedpreview.pdf
-     */
-    function derivePreviewUrl(fileUrl) {
-        if (!fileUrl) return null;
-        return fileUrl.replace(/(\.[^.]+)$/, '__renderedpreview$1');
-    }
-
-    /**
-     * Check if a rendered preview exists for a file by preloading the variant
-     * URL as an Image. On success, add it to previewUrls and update styles.
-     * Results are cached so each URL is only checked once.
-     */
-    function checkRenderedPreview(elId, fileUrl, ext) {
-        if (RENDERABLE_EXTS.indexOf(ext) === -1) return;
-        if (!fileUrl) return;
-
-        var previewUrl = derivePreviewUrl(fileUrl);
-        if (!previewUrl) return;
-
-        // Already confirmed — add to styles immediately
-        if (previewChecked[previewUrl] === true) {
-            previewUrls[elId] = previewUrl;
-            return;
-        }
-
-        // Already checked and failed — skip
-        if (previewChecked[previewUrl] === false) return;
-
-        // First time seeing this URL — HEAD request to verify it exists.
-        // Using fetch() instead of Image() because the variant file has the
-        // original extension (.pdf) but contains PNG data. Image() might reject
-        // the wrong Content-Type, but fetch() just checks HTTP status.
-        // CSS background-image does its own MIME sniffing for the actual rendering.
-        previewChecked[previewUrl] = false; // mark as in-progress
-        fetch(previewUrl, { method: 'HEAD' })
-            .then(function (response) {
-                if (response.ok) {
-                    previewChecked[previewUrl] = true;
-                    previewUrls[elId] = previewUrl;
-                    updatePreviewStyles();
-                }
-            })
-            .catch(function () {
-                // Failed — previewChecked stays false, no style update
-            });
-    }
-
-    /**
-     * Inject/update a <style> block with background-image rules for rendered previews.
-     * Targets the React-stable #selectableItem-{id} wrapper IDs so rules survive
-     * React re-renders (which wipe inline styles but preserve element IDs).
-     */
-    function updatePreviewStyles() {
-        var styleEl = document.getElementById('asset-icons-rendered-previews');
-        if (!styleEl) {
-            styleEl = document.createElement('style');
-            styleEl.id = 'asset-icons-rendered-previews';
-            document.head.appendChild(styleEl);
-        }
-
-        var rules = [];
-        for (var elId in previewUrls) {
-            var url = previewUrls[elId];
-            if (elId.indexOf('table-preview-') === 0) {
-                // Table view: target image div via data-preview-id attribute
-                rules.push(
-                    '[data-preview-id="' + elId + '"] {'
-                    + ' background-image: url(\'' + url + '\') !important;'
-                    + ' background-size: contain !important;'
-                    + ' background-position: center !important;'
-                    + '}'
-                );
-            } else {
-                // Tile view: target thumbnail inside #selectableItem-{id} wrapper
-                rules.push(
-                    '#' + elId + ' .gallery-item__thumbnail {'
-                    + ' background-image: url(\'' + url + '\') !important;'
-                    + ' background-size: cover !important;'
-                    + ' background-position: center top !important;'
-                    + '}'
-                );
-            }
-        }
-
-        styleEl.textContent = rules.join('\n');
-    }
-
-    /**
-     * Apply rendered preview to the edit panel thumbnail (right sidebar).
-     */
-    function applyPreviewToEditThumb(thumbContainer, fileUrl, ext) {
-        if (RENDERABLE_EXTS.indexOf(ext) === -1) return;
-        var previewUrl = derivePreviewUrl(fileUrl);
-        if (!previewUrl) return;
-
-        // If already confirmed, apply immediately
-        if (previewChecked[previewUrl] === true) {
-            thumbContainer.style.backgroundImage = "url('" + previewUrl + "')";
-            thumbContainer.style.backgroundSize = 'contain';
-            thumbContainer.style.backgroundPosition = 'center';
-            thumbContainer.setAttribute('data-rendered-preview', '');
-            return;
-        }
-
-        // Check and apply async via fetch() HEAD (same reasoning as checkRenderedPreview)
-        fetch(previewUrl, { method: 'HEAD' })
-            .then(function (response) {
-                if (response.ok) {
-                    previewChecked[previewUrl] = true;
-                    thumbContainer.style.backgroundImage = "url('" + previewUrl + "')";
-                    thumbContainer.style.backgroundSize = 'contain';
-                    thumbContainer.style.backgroundPosition = 'center';
-                    thumbContainer.setAttribute('data-rendered-preview', '');
-                }
-            })
-            .catch(function () {
-                // Failed — no preview for this file
-            });
-    }
-
     /**
      * Apply data-ext to a highlighted item's edit form thumbnail.
      * Skip image items — SS generates real thumbnails for those.
+     * Skip items with a GraphQL thumbnail — React already renders the preview,
+     * and data-ext would trigger CSS that hides the <img> and shows an icon.
      */
     function applyToEditThumb(isHighlighted, itemData) {
         if (isHighlighted && itemData.category !== 'image') {
             var thumbContainer = document.querySelector('.editor__details .editor__thumbnail-container');
-            if (thumbContainer) {
+            if (thumbContainer && !itemData.thumbnail) {
                 thumbContainer.setAttribute('data-ext', itemData.extension);
-                applyPreviewToEditThumb(thumbContainer, itemData.url, itemData.extension);
             }
         }
     }
@@ -242,11 +102,19 @@
 
                 tile.setAttribute('data-ext', itemData.extension);
                 var thumb = tile.querySelector('.gallery-item__thumbnail');
-                if (thumb) thumb.setAttribute('data-ext', itemData.extension);
-
-                // Check for rendered preview (async — applies via <style> on success)
-                if (tile.id) {
-                    checkRenderedPreview(tile.id, itemData.url, itemData.extension);
+                if (thumb) {
+                    // Always set data-ext for category icon CSS fallback
+                    thumb.setAttribute('data-ext', itemData.extension);
+                    if (itemData.thumbnail) {
+                        // React only applies backgroundImage for image category —
+                        // apply the GraphQL thumbnail (rendered preview) ourselves.
+                        // Inline style overrides the data-ext category icon CSS.
+                        thumb.style.backgroundImage = "url('" + itemData.thumbnail + "')";
+                        thumb.style.backgroundSize = "cover";
+                        thumb.style.backgroundPosition = "center top";
+                        // Flag for CSS badge — distinguishes previews from icons
+                        thumb.setAttribute('data-preview', '');
+                    }
                 }
 
                 applyToEditThumb(
@@ -271,20 +139,20 @@
 
                 row.setAttribute('data-ext', itemData.extension);
                 var img = row.querySelector('.gallery__table-image');
-                if (img) img.setAttribute('data-ext', itemData.extension);
+                if (img) {
+                    img.setAttribute('data-ext', itemData.extension);
+                    if (itemData.thumbnail) {
+                        img.style.backgroundImage = "url('" + itemData.thumbnail + "')";
+                        img.style.backgroundSize = "contain";
+                        img.style.backgroundPosition = "center";
+                        img.setAttribute('data-preview', '');
+                    }
+                }
 
                 var titleSpan = row.querySelector('.gallery__table-column--title span');
                 if (titleSpan) {
                     titleSpan.setAttribute('data-filename', itemData.filename || '');
                     titleSpan.setAttribute('data-name', itemData.name || '');
-                }
-
-                // Table rows don't have #selectableItem-{id} wrappers.
-                // Set a data-preview-id on the image div for CSS targeting.
-                if (itemData.id && img) {
-                    var previewId = 'table-preview-' + itemData.id;
-                    img.setAttribute('data-preview-id', previewId);
-                    checkRenderedPreview(previewId, itemData.url, itemData.extension);
                 }
 
                 applyToEditThumb(
@@ -307,16 +175,12 @@
             if (highlighted) {
                 try {
                     var itemData = findItemData(highlighted);
-                    if (itemData && itemData.extension && itemData.category !== 'image') {
+                    if (itemData && itemData.extension && itemData.category !== 'image' && !itemData.thumbnail) {
                         editThumb.setAttribute('data-ext', itemData.extension);
-                        applyPreviewToEditThumb(editThumb, itemData.url, itemData.extension);
                     }
                 } catch (e) {}
             }
         }
-
-        // Update the injected <style> with any synchronously-resolved previews
-        updatePreviewStyles();
     }
 
     // Listen for DOMNodesInserted events from restruct/silverstripe-simpler
