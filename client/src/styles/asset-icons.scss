@@ -255,3 +255,34 @@ $ss-category-icons: (
     background-size: contain;
   }
 }
+
+// --------------------------------------------------------------------------
+// 5. UploadField items (outside AssetAdmin scope — lives in CMS edit forms)
+// --------------------------------------------------------------------------
+
+// --- IMMEDIATE: Apply icons based on SS category classes (no JS needed) ---
+@each $ss-cat, $icon in $ss-category-icons {
+  .uploadfield-item--#{$ss-cat} .uploadfield-item__thumbnail {
+    background-image: url('#{$icon}');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+
+// --- Default icon for data-ext (JS-enhanced) ---
+.uploadfield-item__thumbnail[data-ext] {
+  background-image: url('../../icons/blank.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+// --- Per-extension icon overrides ---
+@each $ext, $cat in $ext-categories {
+  $icon: map.get($category-icons, $cat);
+
+  .uploadfield-item__thumbnail[data-ext="#{$ext}"] {
+    background-image: url('#{$icon}');
+  }
+}

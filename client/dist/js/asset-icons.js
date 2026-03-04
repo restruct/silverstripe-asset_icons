@@ -164,6 +164,33 @@
             }
         }
 
+        // --- UploadField items ---
+        var uploadItems = document.querySelectorAll('.uploadfield-item');
+        for (var k = 0; k < uploadItems.length; k++) {
+            var uploadItem = uploadItems[k];
+            if (uploadItem.hasAttribute('data-ext')) continue; // already processed
+            try {
+                var itemData = findItemData(uploadItem);
+                if (!itemData || !itemData.extension) continue;
+                if (itemData.category === 'image') continue;
+
+                uploadItem.setAttribute('data-ext', itemData.extension);
+                var uploadThumb = uploadItem.querySelector('.uploadfield-item__thumbnail');
+                if (uploadThumb) {
+                    uploadThumb.setAttribute('data-ext', itemData.extension);
+                    if (itemData.thumbnail) {
+                        // React only applies backgroundImage for image category —
+                        // apply the rendered preview ourselves
+                        uploadThumb.style.backgroundImage = "url('" + itemData.thumbnail + "')";
+                        uploadThumb.style.backgroundSize = "cover";
+                        uploadThumb.style.backgroundPosition = "center top";
+                    }
+                }
+            } catch (e) {
+                // Silently skip items where fiber traversal fails
+            }
+        }
+
         // --- Edit form thumbnail ---
         // Also handle when edit panel is open but no tile/row is actively highlighted
         var editThumb = document.querySelector('.editor__details .editor__thumbnail-container');
