@@ -62,9 +62,34 @@ Restruct\SilverStripe\AssetIcons\Renderable\RenderablePreviewExtension:
 | EPS, PS, AI | GhostscriptRenderer | System `gs` (Ghostscript) |
 | SVG, SVGZ | SvgRenderer | System `rsvg-convert` (librsvg) |
 
+**Using previews in templates:**
+
+The rendered preview is available as a `DBFile` on any `File` object, supporting all standard image manipulation methods:
+
+```html
+<%-- Full-size preview as <img> tag --%>
+$MyPDFFile.RenderedPreview
+
+<%-- Resized preview --%>
+$MyPDFFile.RenderedPreview.ScaleWidth(300)
+$MyPDFFile.RenderedPreview.FitMax(400, 300)
+
+<%-- Just the URL --%>
+<img src="$MyPDFFile.RenderedPreview.URL" alt="Preview" />
+
+<%-- Conditional --%>
+<% if $MyPDFFile.RenderedPreview %>
+    $MyPDFFile.RenderedPreview.ScaleWidth(200)
+<% end_if %>
+```
+
+Returns `null` for images (use SilverStripe's native manipulation), unsupported formats, or when previews are disabled.
+
+> **Note on preview dimensions:** PDF and EPS renderers are DPI-based (default 150 DPI) and ignore the `preview_width`/`preview_height` config — the base preview is rendered at the document's native page size (e.g. ~1240×1753px for A4). The SVG renderer uses `preview_width`/`preview_height` as bounds.
+
 **Known limitations:**
 
-- Preview variants inherit the original file extension (e.g. `.pdf`) but contain PNG data. Browsers handle this via MIME sniffing.
+- Preview variants are stored as `.png` files (via SilverStripe's ExtRewrite variant naming), supporting full image manipulation. Upgrading from 2.2.x will regenerate previews on first access.
 - Not tested with protected/draft files (the module assumes staging is removed).
 
 ## Categories

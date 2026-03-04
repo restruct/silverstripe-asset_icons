@@ -3,8 +3,11 @@
 namespace Restruct\SilverStripe\AssetIcons\Renderable;
 
 use SilverStripe\Assets\File;
+use SilverStripe\Assets\FilenameParsing\AbstractFileIDHelper;
 use SilverStripe\Assets\Storage\AssetStore;
+use SilverStripe\Assets\Storage\DBFile;
 use SilverStripe\Core\Config\Configurable;
+use SilverStripe\Core\Convert;
 use SilverStripe\Core\Extension;
 use SilverStripe\Core\Flushable;
 use SilverStripe\Core\Injector\Injector;
@@ -103,6 +106,56 @@ class RenderablePreviewExtension extends Extension implements Flushable
     }
 
     /**
+     * Get the rendered preview as a DBFile, enabling image manipulation in templates.
+     *
+     * Template usage:
+     *   $MyFile.RenderedPreview                  → <img> tag at full preview size
+     *   $MyFile.RenderedPreview.URL              → just the URL
+     *   $MyFile.RenderedPreview.ScaleWidth(300)  → resized <img> tag
+     *
+     * The variant uses ExtRewrite so files are stored with .png extension,
+     * which is required for InterventionBackend to encode resized variants.
+     *
+     * @return DBFile|null DBFile with ImageManipulation support, or null
+     */
+    public function RenderedPreview(): ?DBFile
+    {
+        if (!static::config()->get('enable_renderable_previews')) {
+            return null;
+        }
+
+        /** @var File $file */
+        $file = $this->getOwner();
+
+        # Images already have native thumbnails — use ScaleWidth etc. directly on those
+        if ($file->getIsImage()) {
+            return null;
+        }
+
+        $renderer = $this->getRendererForFile($file);
+        if (!$renderer) {
+            return null;
+        }
+
+        # Ensure the preview variant exists (generates on-demand if needed)
+        $url = $this->getOrCreatePreview($file, $renderer);
+        if (!$url) {
+            return null;
+        }
+
+        # Return a DBFile pointing at the preview variant
+        # Supports ScaleWidth(), FitMax(), Fill() etc. via ImageManipulation trait
+        /** @var DBFile $dbFile */
+        $dbFile = DBFile::create_field(DBFile::class, [
+            'Filename' => $file->getFilename(),
+            'Hash' => $file->getHash(),
+            'Variant' => $this->buildVariantName($file),
+        ]);
+
+        return $dbFile;
+    }
+
+    /**
      * Get the rendered preview URL, generating it on-demand if needed.
      * This makes the feature retroactive — existing files get previews
      * the first time they appear in the asset-admin grid.
@@ -112,6 +165,7 @@ class RenderablePreviewExtension extends Extension implements Flushable
         $store = $this->getAssetStore();
         $filename = $file->getFilename();
         $hash = $file->getHash();
+        $variantName = $this->buildVariantName($file);
 
         # Bail for unsaved/broken file references
         if (!$filename || !$hash) {
@@ -125,8 +179,8 @@ class RenderablePreviewExtension extends Extension implements Flushable
         }
 
         # Check if variant already exists in the store
-        if ($store->exists($filename, $hash, static::VARIANT_NAME)) {
-            $url = $store->getAsURL($filename, $hash, static::VARIANT_NAME, true);
+        if ($store->exists($filename, $hash, $variantName)) {
+            $url = $store->getAsURL($filename, $hash, $variantName, true);
             static::$checked[$cacheKey] = $url;
             return $url;
         }
@@ -176,14 +230,14 @@ class RenderablePreviewExtension extends Extension implements Flushable
             }
 
             # Store the PNG as a variant of the original file
-            # Note: variant inherits original extension (.pdf) but contains PNG data.
-            # JS uses fetch() HEAD to check existence; CSS background-image does
-            # MIME sniffing and renders PNG bytes regardless of Content-Type header.
+            # Uses ExtRewrite variant naming so the file is stored with .png extension
+            # (required for InterventionBackend to encode sub-variants correctly)
+            $variantName = $this->buildVariantName($file);
             $result = $store->setFromLocalFile(
                 $tempOutput,
                 $file->getFilename(),
                 $file->getHash(),
-                static::VARIANT_NAME,
+                $variantName,
                 ['conflict' => AssetStore::CONFLICT_OVERWRITE]
             );
 
@@ -196,7 +250,7 @@ class RenderablePreviewExtension extends Extension implements Flushable
             return $store->getAsURL(
                 $file->getFilename(),
                 $file->getHash(),
-                static::VARIANT_NAME,
+                $variantName,
                 true # grant access for protected files
             );
         } finally {
@@ -239,6 +293,24 @@ class RenderablePreviewExtension extends Extension implements Flushable
 
         $cached = static::$renderer_cache[$rendererClass];
         return $cached ?: null;
+    }
+
+    /**
+     * Build the full variant name including ExtRewrite for PNG storage.
+     *
+     * Uses SS's extension rewrite mechanism so the variant file is stored
+     * with .png extension. Essential for image manipulation (ScaleWidth etc.)
+     * because InterventionBackend::writeToStore() determines the encode
+     * format from the URL extension — without ExtRewrite it tries to
+     * encode as PDF/SVG/etc. which fails.
+     */
+    protected function buildVariantName(File $file): string
+    {
+        $originalExt = strtolower(pathinfo($file->getFilename(), PATHINFO_EXTENSION));
+        $extRewrite = AbstractFileIDHelper::EXTENSION_REWRITE_VARIANT
+            . Convert::base64url_encode([$originalExt, 'png']);
+
+        return static::VARIANT_NAME . '_' . $extRewrite;
     }
 
     protected function getAssetStore(): AssetStore
