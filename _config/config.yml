@@ -10,6 +10,10 @@ SilverStripe\Admin\LeftAndMain:
 # Renderable preview: generates PNG thumbnails for non-image files (PDF, SVG, etc.)
 # using external CLI tools (Ghostscript, rsvg-convert).
 # Disabled by default — opt in per project.
-SilverStripe\Assets\File:
-  extensions:
-    - Restruct\SilverStripe\AssetIcons\Renderable\RenderablePreviewExtension
+#
+# The extension is registered ONCE, under the name `RenderablePreview`, in
+# renderable-previews.yml. This unnamed second registration made it impossible
+# to remove with `RenderablePreview: null`, because the unnamed entry survived.
+#SilverStripe\Assets\File:
+#  extensions:
+#    - Restruct\SilverStripe\AssetIcons\Renderable\RenderablePreviewExtension
