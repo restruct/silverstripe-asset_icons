@@ -10,18 +10,19 @@ client/
 │   ├── blank.svg
 │   ├── pdf.svg
 │   ├── document.svg
-│   └── ... (17 total)
+│   └── ... (18 total)
 ├── icons-source.svg    # Master source file with all icons (for editing in Inkscape)
 ├── src/styles/
 │   └── asset-icons.scss
+├── extract-icons.py    # Regenerates icons/*.svg from icons-source.svg
 └── dist/
-    └── css/
+    └── styles/
         └── asset-icons.css
 ```
 
 ## Icon Source File
 
-The `client/icons-source.svg` is a combined Inkscape file containing all 17 category icons. It's a single-line XML format for easy sed/regex processing.
+The `client/icons-source.svg` is a combined Inkscape file containing all 18 category icons. It's a single-line XML format for easy sed/regex processing.
 
 ### Element Structure
 
@@ -83,92 +84,17 @@ The `icons-source.svg` is an Inkscape file with all icons. Each icon has two ele
 - `bg-{category}` — Background path with gradient fill `url(#grad-{category})`
 - `file-{category}` — Foreground pictogram with solid fill
 
-To extract individual icons after modifying the source:
+To extract individual icons after modifying the source, run `client/extract-icons.py`:
 
 ```bash
 cd client
-
-python3 << 'PYEOF'
-import xml.etree.ElementTree as ET
-import re
-
-tree = ET.parse('icons-source.svg')
-root = tree.getroot()
-ET.register_namespace('', 'http://www.w3.org/2000/svg')
-
-# Extract gradient colors
-defs = root.find('.//{http://www.w3.org/2000/svg}defs')
-gradients = {}
-for grad in defs.findall('.//{http://www.w3.org/2000/svg}linearGradient'):
-    grad_id = grad.get('id', '')
-    if grad_id.startswith('grad-'):
-        cat = grad_id.replace('grad-', '')
-        stops = grad.findall('.//{http://www.w3.org/2000/svg}stop')
-        colors = [stop.get('stop-color', '') for stop in stops]
-        if len(colors) >= 2:
-            gradients[cat] = {'light': colors[0], 'dark': colors[1]}
-
-# Find bg-* and file-* elements
-elements = {}
-for elem in root.iter('{http://www.w3.org/2000/svg}path'):
-    elem_id = elem.get('id', '')
-    if elem_id.startswith('bg-'):
-        cat = elem_id.replace('bg-', '')
-        if cat not in elements: elements[cat] = {}
-        elements[cat]['bg'] = {'d': elem.get('d', ''), 'style': elem.get('style', '')}
-    elif elem_id.startswith('file-'):
-        cat = elem_id.replace('file-', '')
-        if cat not in elements: elements[cat] = {}
-        elements[cat]['fg'] = {'d': elem.get('d', ''), 'style': elem.get('style', '')}
-
-def parse_path_bounds(d):
-    """Get viewBox from path starting point."""
-    m_match = re.match(r'm\s*([\d.-]+)[,\s]+([\d.-]+)', d, re.I)
-    if m_match:
-        start_x = float(m_match.group(1))
-        start_y = float(m_match.group(2))
-        # ViewBox: 7 units left of start, 3.4 units up, 8.5 wide, 10.5 tall
-        return (start_x - 7, start_y - 3.4, 8.5, 10.5)
-    return None
-
-# Output filename mapping (source name → SCSS name)
-name_map = {'bitmap': 'image', 'binary': 'system'}
-
-for cat, data in elements.items():
-    if 'bg' not in data or 'fg' not in data or cat not in gradients:
-        continue
-
-    bounds = parse_path_bounds(data['bg']['d'])
-    if not bounds:
-        continue
-
-    x, y, w, h = bounds
-    output_name = name_map.get(cat, cat)
-    colors = gradients[cat]
-
-    # Extract foreground fill color from style
-    fg_style = data['fg']['style']
-    fg_fill_match = re.search(r'fill:(#[0-9a-fA-F]+)', fg_style)
-    fg_fill = fg_fill_match.group(1) if fg_fill_match else '#000'
-
-    svg_content = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="{x:.2f} {y:.2f} {w:.2f} {h:.2f}">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="{colors['light']}"/>
-      <stop offset="100%" stop-color="{colors['dark']}"/>
-    </linearGradient>
-  </defs>
-  <path fill="url(#g)" d="{data['bg']['d']}"/>
-  <path fill="{fg_fill}" d="{data['fg']['d']}"/>
-</svg>'''
-
-    with open(f'icons/{output_name}.svg', 'w') as f:
-        f.write(svg_content)
-    print(f"Created icons/{output_name}.svg")
-
-print("Done!")
-PYEOF
+python3 extract-icons.py
 ```
+
+It regenerates **every** icon found in `icons-source.svg` (each needs a `bg-{category}` path, a
+`file-{category}` path and a `grad-{category}` gradient), overwriting `icons/{name}.svg`. Source names
+`bitmap` and `binary` are written as `image.svg` and `system.svg`. Running it on an unchanged source
+reproduces the committed icons byte for byte (checked 2026-09-24).
 
 ## Updating Colors in Source File
 
@@ -191,7 +117,7 @@ sed -i '' 's/\(id="file-pdf"[^>]*fill:\)#[0-9a-fA-F]*/\1#NEW_COLOR/' icons-sourc
 After modifying icons:
 
 ```bash
-# 1. Rebuild CSS (compiles SCSS, inlines SVGs as data URIs)
+# 1. Rebuild CSS (compiles SCSS; SVGs stay external files in dist/icons, see vite.config.js)
 npm run build
 
 # 2. Re-expose assets to public
@@ -209,11 +135,13 @@ composer vendor-expose
 
 ## Adding a New Category
 
-1. Create `client/icons/{category}.svg` using the bash function above
-2. Edit `client/src/styles/asset-icons.scss`:
+1. Add the category to `client/icons-source.svg` (a `bg-{category}` path, a `file-{category}` path and
+   a `grad-{category}` gradient). This is the input step 2 needs, so it is not optional.
+2. Run `cd client && python3 extract-icons.py` to write `client/icons/{category}.svg` (it rewrites the
+   other icons too, identically if their source is unchanged)
+3. Edit `client/src/styles/asset-icons.scss`:
    - Add entry to `$category-icons` map
    - Add extensions to `$ext-categories` map
-3. Optionally add the category to `icons-source.svg` for reference
 4. Run `npm run build`
 
 ## Local Development (Path Repository)
@@ -247,3 +175,8 @@ The fiber data is found in `memoizedProps` under these keys (checked in order):
 - `mp.item.extension` — tile view items
 - `mp.rowData.extension` — some table views
 - `mp.data.extension` — table view rows (Griddle)
+
+Silverstripe 6 (asset-admin 3) needs two fallbacks, both in `findAnyItemData()`:
+- tiles are wrapped in a `<div role="row">`, so the walk starts from the inner `.gallery-item`
+- table rows (TanStack Table) carry no item prop; the row's React `key` is matched against the
+  `files` array of the nearest ancestor that has one
