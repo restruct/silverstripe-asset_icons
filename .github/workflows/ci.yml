@@ -103,13 +103,6 @@ jobs:
             # under the default policy.
             # Blocking is disabled HERE ONLY, in a throwaway CI host project.
             composer config policy.advisories.block false
-          else
-            # restruct/silverstripe-simpler has no 1.x release yet, and its 0.x tags stop at
-            # Silverstripe 5, so ^1 cannot resolve from Packagist on this leg. Alias its main branch
-            # until 1.0.0 is tagged - then DELETE this line, so CI proves the published constraint
-            # resolves.
-            # TODO: remove this alias once restruct/silverstripe-simpler 1.0.0 is tagged.
-            composer require --no-update "restruct/silverstripe-simpler:dev-main as 1.0.0"
           fi
           composer update --no-interaction --no-progress
 
@@ -121,9 +114,11 @@ jobs:
           <!-- Warning-to-error escalation is the RUNNER's behaviour and differs by PHPUnit
                major: 9 (SS5) converts warnings by default, 11 (SS6) has no such attribute.
                failOnWarning is pinned so a warning behaves identically on every leg. -->
-          <!-- colors off: the run step greps the summary line, and ANSI codes would hide it. -->
+          <!-- colors off: keeps the CI log plain text (the run step no longer greps it; PHPUnit's own
+               exit code decides, including failOnEmptyTestSuite). -->
+          <!-- failOnEmptyTestSuite: a suite that silently collapsed to zero tests is a failure. -->
           <phpunit bootstrap="vendor/silverstripe/framework/tests/bootstrap.php" colors="false"
-                   failOnWarning="true">
+                   failOnWarning="true" failOnEmptyTestSuite="true">
               <testsuites>
                   <testsuite name="asset_icons">
                       <directory>vendor/restruct/silverstripe-asset_icons/tests</directory>
@@ -163,7 +158,7 @@ jobs:
 
       - name: Run tests
         working-directory: app-host
-        # Explicit bash gets -o pipefail, so a failing phpunit is not masked by `| tee`.
+        # Explicit bash gets -eo pipefail, so the first failing phpunit call fails the step.
         shell: bash
         env:
           SS_DATABASE_CLASS: MySQLDatabase
@@ -182,16 +177,16 @@ jobs:
         # - SS6 (framework 6, PHPUnit 11): a `flush=1` argument no longer works; framework 6 reads
         #   SS_PHPUNIT_FLUSH instead, which also combines with --testsuite.
         # An empty run is a failure, not a pass: a suite that silently collapsed to zero tests on
-        # one major would otherwise look green.
+        # one major would otherwise look green. --fail-on-empty-test-suite on every call (plus
+        # failOnEmptyTestSuite in phpunit.xml) makes PHPUnit itself exit non-zero; no summary grep.
         run: |
           if [ "${{ matrix.silverstripe }}" = "5" ]; then
-            vendor/bin/phpunit vendor/restruct/silverstripe-asset_icons/tests flush=1 | tee module.log
-            vendor/bin/phpunit app/tests flush=1
+            vendor/bin/phpunit --fail-on-empty-test-suite vendor/restruct/silverstripe-asset_icons/tests flush=1
+            vendor/bin/phpunit --fail-on-empty-test-suite app/tests flush=1
           else
-            SS_PHPUNIT_FLUSH=1 vendor/bin/phpunit --testsuite asset_icons | tee module.log
-            SS_PHPUNIT_FLUSH=1 vendor/bin/phpunit --testsuite consumer
+            SS_PHPUNIT_FLUSH=1 vendor/bin/phpunit --fail-on-empty-test-suite --testsuite asset_icons
+            SS_PHPUNIT_FLUSH=1 vendor/bin/phpunit --fail-on-empty-test-suite --testsuite consumer
           fi
-          grep -Eq '^OK \([1-9][0-9]* tests?' module.log
 
       - name: Boot the app and build the database
         # The suite proves the classes behave; this proves the module does not break a real boot.
