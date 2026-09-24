@@ -83,4 +83,16 @@ class AdminIntegrationTest extends FunctionalTest
         $this->assertNotSame(200, $response->getStatusCode());
         $this->assertStringNotContainsString('icon-card', (string) $response->getBody());
     }
+
+    public function testIconsPreviewScreenDeniesLoggedInUserWithoutCmsAccess(): void
+    {
+        # A logged-in member who may use the asset admin, but neither this screen's own
+        # CMS_ACCESS_* code, CMS_ACCESS_LeftAndMain nor the CMS_ACCESS_CMSMain its index action needs
+        $this->logInWithPermission('CMS_ACCESS_AssetAdmin');
+        $this->autoFollowRedirection = false;
+        $response = $this->get('admin/asset-icons-preview');
+
+        $this->assertNotSame(200, $response->getStatusCode());
+        $this->assertStringNotContainsString('icon-card', (string) $response->getBody());
+    }
 }

@@ -33,7 +33,7 @@ either major; `0.x` stays allowed on Silverstripe 5.
 
 ### Added
 
-- A behavioural PHPUnit suite (20 tests, same count on Silverstripe 5 / PHPUnit 9 and Silverstripe 6
+- A behavioural PHPUnit suite (21 tests, same count on Silverstripe 5 / PHPUnit 9 and Silverstripe 6
   / PHPUnit 11) and GitHub Actions CI: one job per Silverstripe major at its oldest and newest PHP,
   plus a PHP lint job. See "Running the tests" in the README.
 - README: installation, a version compatibility table, every configuration option with its default,
