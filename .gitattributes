@@ -8,3 +8,5 @@
 /UPGRADING.md     export-ignore
 # Dev tool that regenerates client/icons/*.svg from icons-source.svg; not needed at runtime
 /client/extract-icons.py export-ignore
+# Instructions for AI coding sessions on this repo; not part of the module
+/CLAUDE.md        export-ignore

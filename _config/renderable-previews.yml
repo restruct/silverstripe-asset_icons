@@ -29,6 +29,10 @@ SilverStripe\Assets\File:
 # just never appear - so both are overridden. Each major ignores the service
 # name it does not use. Both keep `Generates: false` like core's own
 # definitions, so opening the asset admin never generates image thumbnails.
+# Today those two lines are redundant: the Injector merges core's own
+# `Generates: false` into these definitions, and the tests cannot tell whether
+# ours are present. They are kept on purpose, so the asset admin keeps not
+# generating thumbnails even if core ever changes its default.
 SilverStripe\Core\Injector\Injector:
   SilverStripe\AssetAdmin\Model\ThumbnailGenerator.graphql:
     class: Restruct\SilverStripe\AssetIcons\Renderable\RenderableThumbnailGenerator
