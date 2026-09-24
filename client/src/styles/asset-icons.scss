@@ -169,7 +169,11 @@ $ss-category-icons: (
   // This prevents the flash of default icons before JS runs.
   @each $ss-cat, $icon in $ss-category-icons {
     .gallery-item--#{$ss-cat} .gallery-item__thumbnail,
-    .gallery__table-row--#{$ss-cat} .gallery__table-image {
+    // No asset-admin version puts the category on the table ROW; the thumbnail cell itself
+    // carries `gallery__table-image--{category}` on both asset-admin 2 (SS5) and 3 (SS6).
+    // The row selector is kept for any customised table that does add it.
+    .gallery__table-row--#{$ss-cat} .gallery__table-image,
+    .gallery__table-image--#{$ss-cat} {
       background-image: url('#{$icon}');
       background-size: contain;
       background-repeat: no-repeat;

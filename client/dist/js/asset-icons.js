@@ -1,5 +1,5 @@
 /**
- * Asset Icons - SS5/React 18 compatible
+ * Asset Icons - Silverstripe 5 and 6 (asset-admin 2 and 3, React 18)
  *
  * Sets data-ext attributes on gallery items so CSS can apply category icons
  * and extension text overlays. Works with both tile and table views.
@@ -71,6 +71,47 @@
     }
 
     /**
+     * Silverstripe 6 (asset-admin 3) table rows carry no item prop at all: TanStack Table renders
+     * each <tr> with only `key={row.original.key}`, and the file records live in the TableView's
+     * `files` prop (Gallery adds `key` to every file record). So match the row's fiber key against
+     * the nearest ancestor's `files` array. On Silverstripe 5 findItemData() already succeeds via
+     * the Griddle `rowData`/`data` props and this is never reached.
+     */
+    function findRowDataByKey(row) {
+        var rowFiber = getFiber(row);
+        if (!rowFiber || rowFiber.key === null || rowFiber.key === undefined) return null;
+        var fiber = rowFiber.return;
+        var depth = 0;
+        while (fiber && depth < 15) {
+            var mp = fiber.memoizedProps;
+            if (mp && Array.isArray(mp.files)) {
+                for (var i = 0; i < mp.files.length; i++) {
+                    if (mp.files[i] && mp.files[i].key === rowFiber.key) return mp.files[i];
+                }
+                return null;
+            }
+            fiber = fiber.return;
+            depth++;
+        }
+        return null;
+    }
+
+    /**
+     * Resolve item data for a tile, table row or highlighted item, across asset-admin majors.
+     * - Tile: on Silverstripe 5 the `.gallery__files > div` IS the GalleryItem root; on 6 it is a
+     *   `<div role="row">` wrapper around it, so the upward walk from the wrapper never passes the
+     *   GalleryItem. Try the inner `.gallery-item` first, which works on both.
+     * - Table row: fall back to the key lookup above (Silverstripe 6).
+     */
+    function findAnyItemData(el) {
+        if (!el) return null;
+        var inner = (el.classList && el.classList.contains('gallery-item')) ? null : el.querySelector('.gallery-item');
+        return (inner && findItemData(inner))
+            || findItemData(el)
+            || (el.tagName === 'TR' ? findRowDataByKey(el) : null);
+    }
+
+    /**
      * Apply data-ext to a highlighted item's edit form thumbnail.
      * Skip image items — SS generates real thumbnails for those.
      * Skip items with a GraphQL thumbnail — React already renders the preview,
@@ -95,7 +136,7 @@
             var tile = tiles[i];
             if (tile.hasAttribute('data-ext')) continue; // already processed
             try {
-                var itemData = findItemData(tile);
+                var itemData = findAnyItemData(tile);
                 if (!itemData || !itemData.extension) continue;
                 // Skip image items — SS generates real thumbnails for those
                 if (itemData.category === 'image') continue;
@@ -127,12 +168,15 @@
         }
 
         // --- Table view ---
-        var rows = document.querySelectorAll('.gallery__main-view--table tbody tr.gallery__table-row');
+        // `.gallery__main-view--table` wraps the table on Silverstripe 5 only; `.gallery__table` is the
+        // <table> class on both 5 and 6.
+        // var rows = document.querySelectorAll('.gallery__main-view--table tbody tr.gallery__table-row');
+        var rows = document.querySelectorAll('.gallery__table tbody tr.gallery__table-row');
         for (var j = 0; j < rows.length; j++) {
             var row = rows[j];
             if (row.hasAttribute('data-ext')) continue; // already processed
             try {
-                var itemData = findItemData(row);
+                var itemData = findAnyItemData(row);
                 if (!itemData || !itemData.extension) continue;
                 // Skip image items — SS generates real thumbnails for those
                 if (itemData.category === 'image') continue;
@@ -201,7 +245,7 @@
             );
             if (highlighted) {
                 try {
-                    var itemData = findItemData(highlighted);
+                    var itemData = findAnyItemData(highlighted);
                     if (itemData && itemData.extension && itemData.category !== 'image' && !itemData.thumbnail) {
                         editThumb.setAttribute('data-ext', itemData.extension);
                     }
