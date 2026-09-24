@@ -11,8 +11,9 @@ Replaces the default document thumbnails in SilverStripe's Asset Admin with **ca
 
 - Silverstripe 5 or 6 (`silverstripe/asset-admin` `^2 || ^3`)
 - PHP 8.1 or newer (Silverstripe 6 itself needs 8.3)
-- `restruct/silverstripe-simpler` (provides DOMNodesInserted events): `0.x` on Silverstripe 5,
-  `1.x` on Silverstripe 6
+- `restruct/silverstripe-simpler` (provides DOMNodesInserted events): `^0 || ^1`. `1.x` supports
+  Silverstripe 5 and 6 and is what Composer picks on a fresh install; Silverstripe 5 projects already
+  on `0.x` can stay there
 - `restruct/xpdf-static` (bundled PDF renderer, no system dependencies)
 
 ## Installation
@@ -23,9 +24,6 @@ composer require restruct/silverstripe-asset_icons
 
 Then flush (`?flush=1`, or `sake dev/build flush=1` on Silverstripe 5 / `sake db:build --flush` on
 Silverstripe 6). The category icons work straight away; rendered previews are opt-in (below).
-
-> **Silverstripe 6:** this module needs `restruct/silverstripe-simpler` 1.x, which is not tagged yet.
-> Until it is, Composer cannot install this module on Silverstripe 6 from Packagist alone.
 
 ## Version compatibility
 
@@ -45,12 +43,12 @@ supported range.
 
 ### Category icons
 
-1. **CSS** immediately applies category icons using SilverStripe's built-in classes (`gallery-item--document`, `gallery-item--archive`, etc.) — **no flash of default icons**
+1. **CSS** immediately applies category icons using SilverStripe's built-in classes (`gallery-item--document`, `gallery-item--archive`, etc.) - **no flash of default icons**
 2. **JavaScript** reads React fiber data and sets `data-ext` attributes for more specific icons (e.g., PDF instead of generic document)
 3. **SCSS** maps ~170 file extensions to 18 categories, each with a colored SVG icon
-4. **External SVGs** are loaded on-demand and cached by the browser (76KB CSS + ~31KB SVGs)
+4. **External SVGs** are loaded on-demand and cached by the browser (~92KB CSS + ~34KB SVGs)
 
-Regular images don't need icons — SilverStripe generates thumbnails for those. This module targets document-category files only.
+Regular images don't need icons - SilverStripe generates thumbnails for those. This module targets document-category files only.
 
 ### Rendered preview thumbnails
 
@@ -115,7 +113,7 @@ SilverStripe\Assets\File:
 
 | Format | Renderer | Requirement |
 |--------|----------|-------------|
-| PDF | XpdfRenderer | Bundled via `restruct/xpdf-static` — no system deps |
+| PDF | XpdfRenderer | Bundled via `restruct/xpdf-static` - no system deps |
 | EPS, PS, AI | GhostscriptRenderer | System `gs` (Ghostscript) |
 | SVG, SVGZ | SvgRenderer | System `rsvg-convert` (librsvg) |
 
@@ -145,7 +143,7 @@ Returns `null` for images (use SilverStripe's native manipulation), unsupported 
 From PHP, `$file->RenderedPreview()` returns the same `DBFile` (or `null`), and
 `$file->getRenderedPreviewURL()` just the URL. Both generate the preview on first use.
 
-> **Note on preview dimensions:** PDF and EPS renderers are DPI-based (default 150 DPI) and ignore the `preview_width`/`preview_height` config — the base preview is rendered at the document's native page size (e.g. ~1240×1753px for A4). The SVG renderer uses `preview_width`/`preview_height` as bounds.
+> **Note on preview dimensions:** PDF and EPS renderers are DPI-based (default 150 DPI) and ignore the `preview_width`/`preview_height` config - the base preview is rendered at the document's native page size (e.g. ~1240x1753px for A4). The SVG renderer uses `preview_width`/`preview_height` as bounds.
 
 **Known limitations:**
 
@@ -216,21 +214,21 @@ client/
   icons/              # 18 category SVG source files
   icons-source.svg    # Master Inkscape file with all icons
   src/
-    js/               # Vanilla JS source (React fiber → data-ext + preview)
+    js/               # Vanilla JS source (React fiber -> data-ext + preview)
     styles/           # SCSS source
   dist/
     icons/            # External SVG files (loaded on-demand, cached)
     js/               # Copied JS
-    styles/           # Compiled CSS (~77KB)
+    styles/           # Compiled CSS (~92KB)
 src/
   Dev/                # IconsPreviewController (visit /admin/asset-icons-preview)
   Renderable/         # Rendered preview system
     RenderablePreviewExtension.php   # File extension: generates & stores variants
     RenderableThumbnailGenerator.php # Injector override for the asset admin thumbnails (.graphql on SS5, .assetadminopen on SS6)
     RendererInterface.php            # Contract for CLI renderers
-    XpdfRenderer.php                 # PDF → PNG (bundled binary)
-    GhostscriptRenderer.php          # EPS/PS/AI → PNG (system gs)
-    SvgRenderer.php                  # SVG → PNG (system rsvg-convert)
+    XpdfRenderer.php                 # PDF -> PNG (bundled binary)
+    GhostscriptRenderer.php          # EPS/PS/AI -> PNG (system gs)
+    SvgRenderer.php                  # SVG -> PNG (system rsvg-convert)
 ```
 
 ## Running the tests

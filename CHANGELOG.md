@@ -1,15 +1,15 @@
 # Changelog
 
-## 2.4.0 (unreleased)
+## 2.4.0 (2026-09-25)
 
 **Silverstripe 6 support, on the same line as Silverstripe 5.** `2.4.x` requires
 `silverstripe/asset-admin ^2 || ^3` (Silverstripe 5 or 6) and PHP `^8.1`. Nothing is removed and no
 configuration changes are needed; Silverstripe 5 projects can update in place. Silverstripe 4 stays on
 the `1.x` tags.
 
-**Waiting on another release:** on Silverstripe 6 this module needs `restruct/silverstripe-simpler`
-1.x (the `0.x` tags only allow Silverstripe 4 and 5), which is not tagged yet. Until it is, Composer
-cannot install `2.4.0` on Silverstripe 6. Tag simpler 1.0.0 first.
+On Silverstripe 6 this module needs `restruct/silverstripe-simpler` 1.x (the `0.x` tags only allow
+Silverstripe 4 and 5). simpler 1.0.0 supports Silverstripe 5 and 6, so a fresh install picks it on
+either major; `0.x` stays allowed on Silverstripe 5.
 
 ### Fixed
 
@@ -28,6 +28,8 @@ cannot install `2.4.0` on Silverstripe 6. Tag simpler 1.0.0 first.
   `.gallery__table-image--{category}`, which both majors set on the thumbnail cell.
 - **`RenderablePreview: null` could not remove the preview extension from `File`**, because it was
   registered a second time without a name. It is now registered once, as `RenderablePreview`.
+- A stray copy of `code.svg` in `client/dist/styles/` (unreferenced; the stylesheet loads
+  `client/dist/icons/code.svg`) is removed from the package.
 
 ### Added
 
