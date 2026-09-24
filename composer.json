@@ -1,24 +1,33 @@
 {
     "name": "restruct/silverstripe-asset_icons",
-    "description": "Fix-up assets with filetype icons and better filenames",
+    "description": "Category-coloured file-type icons and rendered preview thumbnails (PDF, SVG, EPS) for Silverstripe's Asset Admin and UploadField",
     "type": "silverstripe-vendormodule",
     "license": "MIT",
-    "keywords": ["silverstripe"],
-	"homepage": "https://github.com/restruct/silverstripe-asset_icons/",
+    "keywords": ["silverstripe", "asset-admin", "icons", "thumbnails", "pdf"],
+    "homepage": "https://github.com/restruct/silverstripe-asset_icons/",
     "authors": [
         {
             "name": "Restruct web & apps",
-			"email": "dev@restruct.nl"
+            "email": "dev@restruct.nl"
         }
     ],
     "require": {
-		"silverstripe/asset-admin": "~2.0",
-		"restruct/silverstripe-simpler": "^0",
-		"restruct/xpdf-static": "~1.0"
+        "php": "^8.1",
+        "silverstripe/asset-admin": "^2 || ^3",
+        "restruct/silverstripe-simpler": "^0 || ^1",
+        "restruct/xpdf-static": "~1.0"
+    },
+    "require-dev": {
+        "silverstripe/recipe-testing": "^3 || ^4"
     },
     "autoload": {
         "psr-4": {
             "Restruct\\SilverStripe\\AssetIcons\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Restruct\\AssetIcons\\Tests\\": "tests/"
         }
     },
     "extra": {
@@ -30,5 +39,11 @@
         "allow-plugins": {
             "composer/installers": true
         }
-    }
+    },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/restruct"
+        }
+    ]
 }
