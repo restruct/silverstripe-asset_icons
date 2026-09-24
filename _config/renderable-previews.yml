@@ -2,7 +2,10 @@
 Name: 'asset-icons-renderable-previews'
 After:
   - '#asset-icons'
+  # asset-admin 2 (Silverstripe 5) defines the .graphql service in this fragment
   - '#asset-admin-graphql-thumbnails'
+  # asset-admin 3 (Silverstripe 6) defines the .assetadminopen service in this fragment
+  - '#assetadminthumbnails'
 ---
 # Renderable preview support — generates PNG previews for PDFs, SVGs, etc.
 # Disabled by default. Enable in your project config:
@@ -18,8 +21,19 @@ SilverStripe\Assets\File:
 # appear as the `thumbnail` field for non-image files.
 # Only targets the .graphql named service — no side effects on UploadField
 # or other ThumbnailGenerator consumers.
+#
+# Silverstripe 6 (asset-admin 3) dropped GraphQL: the asset admin reads its
+# file list from AssetAdminOpen, which uses the `.assetadminopen` service
+# instead. Overriding only `.graphql` there is silent - no error, the previews
+# just never appear - so both are overridden. Each major ignores the service
+# name it does not use. Both keep `Generates: false` like core's own
+# definitions, so opening the asset admin never generates image thumbnails.
 SilverStripe\Core\Injector\Injector:
   SilverStripe\AssetAdmin\Model\ThumbnailGenerator.graphql:
+    class: Restruct\SilverStripe\AssetIcons\Renderable\RenderableThumbnailGenerator
+    properties:
+      Generates: false
+  SilverStripe\AssetAdmin\Model\ThumbnailGenerator.assetadminopen:
     class: Restruct\SilverStripe\AssetIcons\Renderable\RenderableThumbnailGenerator
     properties:
       Generates: false
