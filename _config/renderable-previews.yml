@@ -19,8 +19,9 @@ SilverStripe\Assets\File:
 
 # Override the GraphQL-specific ThumbnailGenerator so rendered previews
 # appear as the `thumbnail` field for non-image files.
-# Only targets the .graphql named service — no side effects on UploadField
-# or other ThumbnailGenerator consumers.
+# Only targets the asset admin's named services (.graphql and .assetadminopen,
+# see below) - no side effects on UploadField or other ThumbnailGenerator
+# consumers.
 #
 # Silverstripe 6 (asset-admin 3) dropped GraphQL: the asset admin reads its
 # file list from AssetAdminOpen, which uses the `.assetadminopen` service

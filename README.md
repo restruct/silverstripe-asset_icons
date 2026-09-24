@@ -226,7 +226,7 @@ src/
   Dev/                # IconsPreviewController (visit /admin/asset-icons-preview)
   Renderable/         # Rendered preview system
     RenderablePreviewExtension.php   # File extension: generates & stores variants
-    RenderableThumbnailGenerator.php # Injector override for GraphQL thumbnails
+    RenderableThumbnailGenerator.php # Injector override for the asset admin thumbnails (.graphql on SS5, .assetadminopen on SS6)
     RendererInterface.php            # Contract for CLI renderers
     XpdfRenderer.php                 # PDF → PNG (bundled binary)
     GhostscriptRenderer.php          # EPS/PS/AI → PNG (system gs)

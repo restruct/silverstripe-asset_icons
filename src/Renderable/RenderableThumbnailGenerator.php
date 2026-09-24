@@ -7,14 +7,18 @@ use SilverStripe\Assets\File;
 use SilverStripe\Assets\Storage\AssetContainer;
 
 /**
- * ThumbnailGenerator override for the GraphQL `.graphql` named service.
+ * ThumbnailGenerator override for the named service the asset admin reads its
+ * file list through: `.graphql` on Silverstripe 5 (asset-admin 2) and
+ * `.assetadminopen` on Silverstripe 6 (asset-admin 3, which has no GraphQL).
  *
  * Falls back to rendered preview URLs (from RenderablePreviewExtension)
  * when the standard thumbnail logic returns null (i.e. for non-image files
  * like PDFs, SVGs, etc.).
  *
- * Registered via Injector for the `.graphql` service only — doesn't affect
- * UploadField or other ThumbnailGenerator consumers.
+ * Registered via Injector for those two named services only (see
+ * _config/renderable-previews.yml) - doesn't affect UploadField or other
+ * ThumbnailGenerator consumers. Both registrations are needed: overriding only
+ * `.graphql` leaves Silverstripe 6 silently without previews.
  *
  * @see RenderablePreviewExtension::getRenderedPreviewURL()
  */
