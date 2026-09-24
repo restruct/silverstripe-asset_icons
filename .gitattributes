@@ -6,3 +6,5 @@
 /.gitattributes   export-ignore
 /.gitignore       export-ignore
 /UPGRADING.md     export-ignore
+# Dev tool that regenerates client/icons/*.svg from icons-source.svg; not needed at runtime
+/client/extract-icons.py export-ignore
