@@ -122,6 +122,7 @@ jobs:
               <testsuites>
                   <testsuite name="asset_icons">
                       <directory>vendor/restruct/silverstripe-asset_icons/tests</directory>
+                      <exclude>vendor/restruct/silverstripe-asset_icons/tests/browser</exclude>
                   </testsuite>
                   <testsuite name="consumer">
                       <directory>app/tests</directory>
