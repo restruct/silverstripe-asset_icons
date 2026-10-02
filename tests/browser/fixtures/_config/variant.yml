@@ -1,0 +1,10 @@
+---
+Name: aib-browser-fixtures
+---
+# BROWSER-TEST FIXTURE ONLY - copied to the scratch host's app/_config/browser-fixtures/ by the
+# runner (fixture YAML in app/src would never be read). See AiBVariantMiddleware.
+SilverStripe\Core\Injector\Injector:
+  SilverStripe\Control\Director:
+    properties:
+      Middlewares:
+        AiBVariant: '%$Restruct\AiBrowser\AiBVariantMiddleware'
