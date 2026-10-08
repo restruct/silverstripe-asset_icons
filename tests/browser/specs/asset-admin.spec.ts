@@ -94,3 +94,29 @@ test('edit panel: the selected PDF shows the PDF icon in place of core\'s generi
     // Core's generic document image is hidden so the icon behind it shows.
     await expect(thumb.locator('img')).toHaveCSS('opacity', '0');
 });
+
+test('category icons carry no extension badge (#1)', async ({ page }) => {
+    // https://github.com/restruct/silverstripe-asset_icons/issues/1
+    // An early version drew the extension ("PDF") as an ::after badge on every icon; it sat below
+    // the icon and was cut off by the thumbnail's box. Only rendered previews get a badge now (to
+    // tell them from real images, see previews.spec.ts), so an icon's ::after must stay empty.
+    const afterContent = (l: import('@playwright/test').Locator) =>
+        l.evaluate((el) => getComputedStyle(el, '::after').content);
+
+    await openFixtureFolder(page);
+    await showTiles(page);
+    const thumb = tile(page, 'report.pdf').locator('.gallery-item__thumbnail');
+    await expect(thumb).toHaveAttribute('data-ext', 'pdf');
+    expect(await afterContent(thumb), 'tile').toMatch(/^(none|normal)$/);
+
+    await tile(page, 'report.pdf').locator('.gallery-item').click();
+    const editThumb = page.locator('.editor__details .editor__thumbnail-container');
+    await expect(editThumb).toHaveAttribute('data-ext', 'pdf');
+    expect(await afterContent(editThumb), 'edit panel').toMatch(/^(none|normal)$/);
+
+    await openFixtureFolder(page);
+    await showTable(page);
+    const img = row(page, 'report.pdf').locator('.gallery__table-image');
+    await expect(img).toHaveAttribute('data-ext', 'pdf');
+    expect(await afterContent(img), 'table').toMatch(/^(none|normal)$/);
+});
