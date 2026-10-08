@@ -264,9 +264,17 @@ $ss-category-icons: (
 // 5. UploadField items (outside AssetAdmin scope — lives in CMS edit forms)
 // --------------------------------------------------------------------------
 
+// Specificity: core's asset-admin bundle styles the same element with
+// `.uploadfield-item--{category} .uploadfield-item__thumbnail { background: #fff url(...) }`, two
+// classes like the selectors below used to be. Its bundle loads after this stylesheet, so on a tie
+// core's generic image won and neither the category nor the data-ext icon ever showed (#4). Every
+// selector here therefore carries one class more than core's (the `.uploadfield-item` the thumbnail
+// always sits in). The tile/table rules above do not need this: `.AssetAdmin` already adds one.
+
 // --- IMMEDIATE: Apply icons based on SS category classes (no JS needed) ---
 @each $ss-cat, $icon in $ss-category-icons {
-  .uploadfield-item--#{$ss-cat} .uploadfield-item__thumbnail {
+  // .uploadfield-item--#{$ss-cat} .uploadfield-item__thumbnail {
+  .uploadfield-item.uploadfield-item--#{$ss-cat} .uploadfield-item__thumbnail {
     background-image: url('#{$icon}');
     background-size: contain;
     background-repeat: no-repeat;
@@ -275,7 +283,8 @@ $ss-category-icons: (
 }
 
 // --- Default icon for data-ext (JS-enhanced) ---
-.uploadfield-item__thumbnail[data-ext] {
+// .uploadfield-item__thumbnail[data-ext] {
+.uploadfield-item .uploadfield-item__thumbnail[data-ext] {
   background-image: url('../../icons/blank.svg');
   background-size: contain;
   background-repeat: no-repeat;
@@ -286,7 +295,8 @@ $ss-category-icons: (
 @each $ext, $cat in $ext-categories {
   $icon: map.get($category-icons, $cat);
 
-  .uploadfield-item__thumbnail[data-ext="#{$ext}"] {
+  // .uploadfield-item__thumbnail[data-ext="#{$ext}"] {
+  .uploadfield-item .uploadfield-item__thumbnail[data-ext="#{$ext}"] {
     background-image: url('#{$icon}');
   }
 }

@@ -112,6 +112,15 @@
     }
 
     /**
+     * Is this URL core's generic file-type icon rather than a real preview?
+     * File::getIcon() (the default File::PreviewLink() for a non-image) always resolves to
+     * silverstripe/framework's client/images/app_icons/{type}_92.png, on Silverstripe 5 and 6.
+     */
+    function isCoreAppIcon(url) {
+        return String(url).indexOf('/client/images/app_icons/') !== -1;
+    }
+
+    /**
      * Apply data-ext to a highlighted item's edit form thumbnail.
      * Skip image items — SS generates real thumbnails for those.
      * Skip items with a GraphQL thumbnail — React already renders the preview,
@@ -222,7 +231,13 @@
                 var uploadThumb = uploadItem.querySelector('.uploadfield-item__thumbnail');
                 if (uploadThumb) {
                     uploadThumb.setAttribute('data-ext', itemData.extension);
-                    if (itemData.thumbnail) {
+                    // Unlike the asset admin's data, an UploadField item's `thumbnail` is never empty
+                    // for a non-image: core fills it with File::PreviewLink(), which is core's generic
+                    // app icon unless RenderablePreviewExtension replaced it with a rendered preview.
+                    // Only a rendered preview may become the inline background, or it hides the
+                    // data-ext category icon (#4).
+                    // if (itemData.thumbnail) {
+                    if (itemData.thumbnail && !isCoreAppIcon(itemData.thumbnail)) {
                         // React only applies backgroundImage for image category —
                         // apply the rendered preview ourselves
                         uploadThumb.style.backgroundImage = "url('" + itemData.thumbnail + "')";

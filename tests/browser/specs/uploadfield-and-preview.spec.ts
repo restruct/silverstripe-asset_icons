@@ -3,9 +3,10 @@ import { test, expect, backgroundOf, iconUrl } from './support';
 // The UploadField in a CMS edit form, and the module's icon overview page.
 
 test.describe('UploadField', () => {
-    async function openRecord(page: import('@playwright/test').Page) {
+    async function openRecord(page: import('@playwright/test').Page, title = 'PDF attachment') {
         await page.goto('/admin/aib-browser/records');
-        await page.locator('#Form_EditForm_records tr.ss-gridfield-item', { hasText: 'PDF attachment' }).click();
+        // Exact title match, so one record's title containing another's never opens the wrong row.
+        await page.locator('#Form_EditForm_records tr.ss-gridfield-item').filter({ has: page.getByText(title, { exact: true }) }).click();
         const item = page.locator('#Form_ItemEditForm .uploadfield-item');
         await expect(item).toBeVisible();
         return item;
@@ -17,13 +18,34 @@ test.describe('UploadField', () => {
         await expect(item.locator('.uploadfield-item__thumbnail')).toHaveAttribute('data-ext', 'pdf');
     });
 
-    test.fixme('the attached PDF shows the PDF icon, not core\'s generic document image', async ({ page }) => {
-        // FIXME https://github.com/restruct/silverstripe-asset_icons/issues/4
-        // The script copies the item's `thumbnail` into an inline background-image whenever it is
-        // set, meant for rendered previews. For an UploadField item `thumbnail` is core's generic
-        // app icon (document_92.png), so with previews off that inline style hides the PDF icon.
+    test('the attached PDF shows the PDF icon, not core\'s generic document image', async ({ page }) => {
+        // https://github.com/restruct/silverstripe-asset_icons/issues/4
+        // For an UploadField item `thumbnail` is File::PreviewLink(), which with previews off is
+        // core's generic app icon (framework client/images/app_icons/document_92.png). The script
+        // used to copy it into an inline background-image, hiding the PDF icon.
         const item = await openRecord(page);
-        expect(await backgroundOf(item.locator('.uploadfield-item__thumbnail'))).toMatch(iconUrl('pdf'));
+        const thumb = item.locator('.uploadfield-item__thumbnail');
+        // The script marks the item a frame after React renders it; read the style only after that.
+        await expect(thumb).toHaveAttribute('data-ext', 'pdf');
+        expect(await backgroundOf(thumb)).toMatch(iconUrl('pdf'));
+        expect((await thumb.getAttribute('style')) ?? '').not.toMatch(/app_icons/);
+    });
+
+    test('with previews on, the attached PDF shows a PNG rendered from the file', async ({ page, context, baseURL }) => {
+        // The other half of #4: the inline background-image IS wanted when `thumbnail` is a rendered
+        // preview (RenderablePreviewExtension::updatePreviewLink), so the fix must keep that path.
+        await context.addCookies([{ name: 'aib-browser-variant', value: 'previews', url: baseURL! }]);
+        const item = await openRecord(page, 'Rendered preview attachment');
+        const thumb = item.locator('.uploadfield-item__thumbnail');
+        await expect(thumb).toHaveAttribute('data-ext', 'pdf');
+        await expect(thumb).toHaveAttribute('style', /background-image/);
+        const style = (await thumb.getAttribute('style')) ?? '';
+        const url = /background-image:\s*url\("?'?([^"')]+)/.exec(style)?.[1];
+        expect(url, `inline preview url in "${style}"`).toMatch(/\.png(\?|$)/);
+        expect(url).not.toMatch(/app_icons/);
+        const response = await page.request.get(url!);
+        expect(response.status()).toBe(200);
+        expect(response.headers()['content-type']).toBe('image/png');
     });
 });
 

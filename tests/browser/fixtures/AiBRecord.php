@@ -47,6 +47,13 @@ class AiBRecord extends DataObject
     public const FOLDER = 'aib-files';
 
     /**
+     * Folder for the renderable PDF the second record holds, kept out of FOLDER so the asset-admin
+     * specs' file list stays as it is. The PDF is real (AiBPreviewSeed::pdf()), so with previews
+     * switched on (AiBVariantMiddleware) its UploadField item gets a rendered preview.
+     */
+    public const PREVIEW_FOLDER = 'aib-uploadfield';
+
+    /**
      * The seeded files: name => content. One per icon the specs check, chosen so both kinds of
      * icon are covered: those core already marks with a broad category class (docx = document,
      * zip = archive, mp3 = audio), which the CSS styles before any JS runs, and those only the
@@ -98,9 +105,23 @@ class AiBRecord extends DataObject
             }
         }
 
+        # The renderable PDF for the "Rendered preview attachment" record. Its content carries the
+        # build time (like AiBPreviewSeed), so the preview is rendered in this run.
+        $previewFolder = Folder::find_or_make(self::PREVIEW_FOLDER);
+        foreach (File::get()->filter('ParentID', $previewFolder->ID) as $old) {
+            $old->doArchive();
+        }
+        $renderable = File::create();
+        $renderable->setFromString(AiBPreviewSeed::pdf('UploadField preview ' . date('c')), self::PREVIEW_FOLDER . '/rendered.pdf');
+        $renderable->ParentID = $previewFolder->ID;
+        $renderable->Title = 'rendered.pdf';
+        $renderable->write();
+        $renderable->publishSingle();
+
         foreach (static::get() as $old) {
             $old->delete();
         }
         static::create(['Title' => 'PDF attachment', 'AttachmentID' => $pdf->ID])->write();
+        static::create(['Title' => 'Rendered preview attachment', 'AttachmentID' => $renderable->ID])->write();
     }
 }
