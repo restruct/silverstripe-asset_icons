@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.4.1 (unreleased)
+
+### Fixed
+
+- **UploadField items showed core's generic document image instead of the category icon** (#4,
+  Silverstripe 5 and 6). Two causes, both needed fixing:
+  - The script copied an UploadField item's `thumbnail` into an inline background-image, meant for
+    rendered previews. For a non-image, core always fills `thumbnail` with `File::PreviewLink()`,
+    which is core's generic app icon unless rendered previews replace it, so the inline style hid
+    the icon. Core's app icon is now skipped; rendered previews still show.
+  - The stylesheet's UploadField selectors had the same specificity as core's
+    `.uploadfield-item--{category} .uploadfield-item__thumbnail` rule, and core's bundle loads
+    later, so core's image won even without the inline style. They now carry one class more.
+  This also covers the UploadField part of #1. Its list-view part was fixed in 2.4.0, and the
+  cut-off extension badge it shows has been disabled since February; a browser spec now guards both.
+
 ## 2.4.0 (2026-09-25)
 
 **Silverstripe 6 support, on the same line as Silverstripe 5.** `2.4.x` requires
