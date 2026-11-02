@@ -33,9 +33,13 @@ class GhostscriptRenderer implements RendererInterface
         $binary = static::config()->get('binary_path');
         $dpi = (int) static::config()->get('render_dpi');
 
-        # Render first page only, with anti-aliasing for sharp text
+        # Render first page only, with anti-aliasing for sharp text.
+        # -dEPSCrop sizes the page to an EPS file's %%BoundingBox (#6); without it gs draws the
+        # EPS onto its default page (Letter or A4), leaving a small drawing in the corner of a
+        # page-sized preview. gs ignores it for input without an EPSF header (plain PostScript,
+        # PDF-based AI files), which keep their own page size.
         $cmd = sprintf(
-            '%s -dNOPAUSE -dBATCH -dSAFER -dFirstPage=1 -dLastPage=1'
+            '%s -dNOPAUSE -dBATCH -dSAFER -dEPSCrop -dFirstPage=1 -dLastPage=1'
             . ' -sDEVICE=png16m -r%d -dTextAlphaBits=4 -dGraphicsAlphaBits=4'
             . ' -sOutputFile=%s %s 2>&1',
             escapeshellarg($binary),

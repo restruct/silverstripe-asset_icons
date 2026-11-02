@@ -65,6 +65,16 @@ jobs:
           tools: composer:v2
           coverage: none
 
+      - name: Install Ghostscript
+        # GhostscriptRenderer shells out to `gs`. RenderersTest renders a real EPS through it and
+        # skips without gs, so CI installs it and sets ASSET_ICONS_REQUIRE_GS (Run tests below),
+        # which turns that skip into a failure. `gs --version` fails the step if the install did not
+        # put gs on the PATH.
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ghostscript
+          gs --version
+
       - name: Build a host project
         # The module cannot be tested on its own: it needs a booted Silverstripe app. The host
         # composer.json is written by hand: recipe-cms is the thing to require.
@@ -169,6 +179,8 @@ jobs:
           SS_DATABASE_PASSWORD: root
           SS_DATABASE_NAME: ss_ci
           SS_ENVIRONMENT_TYPE: dev
+          # gs is installed above: the Ghostscript render test must run here, not skip
+          ASSET_ICONS_REQUIRE_GS: '1'
         # Every run flushes the manifest, and how differs per major:
         # - SS5 (framework 5, PHPUnit 9): SS_PHPUNIT_FLUSH does not exist in framework 5, so it
         #   would be inert. The flush is a trailing `flush=1` argument, which only works AFTER an
