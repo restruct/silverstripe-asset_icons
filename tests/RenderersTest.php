@@ -82,4 +82,32 @@ class RenderersTest extends SapphireTest
         $this->assertEqualsWithDelta(144, $w72, 2);
         $this->assertEqualsWithDelta(288, $w144, 2);
     }
+
+    public function testGhostscriptCropsEpsToItsBoundingBox(): void
+    {
+        $renderer = Injector::inst()->create(GhostscriptRenderer::class);
+        if (!$renderer->isAvailable()) {
+            # CI installs Ghostscript and sets ASSET_ICONS_REQUIRE_GS, so a missing gs there is a
+            # failure rather than a skip that would let this case pass green without running
+            if (getenv('ASSET_ICONS_REQUIRE_GS')) {
+                $this->fail('ASSET_ICONS_REQUIRE_GS is set but Ghostscript (gs) is not available');
+            }
+            $this->markTestSkipped('Ghostscript (gs) is not installed');
+        }
+
+        # A 100x50 pt drawing (issue #6). Without -dEPSCrop gs renders it onto its default page
+        # (US Letter, 1275x1650 px at 150 DPI) instead of the drawing's own BoundingBox.
+        $eps = $this->tempPath('.eps');
+        file_put_contents($eps, "%!PS-Adobe-3.0 EPSF-3.0\n%%BoundingBox: 0 0 100 50\n"
+            . "0 0 1 setrgbcolor 0 0 100 50 rectfill\nshowpage\n");
+
+        Config::modify()->set(GhostscriptRenderer::class, 'render_dpi', 150);
+        $out = $this->tempPath('.png');
+        $this->assertTrue($renderer->render($eps, $out));
+
+        [$width, $height] = getimagesize($out);
+        # 100x50 pt at 150 DPI: about 208x104 px (allow gs's rounding)
+        $this->assertEqualsWithDelta(208, $width, 3, "EPS preview width {$width}px: not cropped to its BoundingBox");
+        $this->assertEqualsWithDelta(104, $height, 3, "EPS preview height {$height}px: not cropped to its BoundingBox");
+    }
 }
