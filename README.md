@@ -126,7 +126,7 @@ From PHP, `$file->RenderedPreview()` returns the same `DBFile` (or `null`), and
 
 > **Note on preview dimensions:** PDF and EPS renderers are DPI-based (default 150 DPI) and ignore
 > the `preview_width`/`preview_height` config - the base preview is rendered at the document's
-> native page size (e.g. ~1240x1753px for A4). The SVG renderer uses `preview_width`/`preview_height`
+> native page size (e.g. ~1240x1753px for A4; for EPS, its BoundingBox). The SVG renderer uses `preview_width`/`preview_height`
 > as bounds.
 
 **Known limitations:**
@@ -134,9 +134,9 @@ From PHP, `$file->RenderedPreview()` returns the same `DBFile` (or `null`), and
 - Preview variants are stored as `.png` files (via SilverStripe's ExtRewrite variant naming),
   supporting full image manipulation. Upgrading from 2.2.x will regenerate previews on first access.
 - Not tested with protected/draft files (the module assumes staging is removed).
-- EPS files are rendered onto Ghostscript's default page size rather than the drawing's own
-  bounding box, so a small drawing sits in the corner of a page-sized preview
-  ([#6](https://github.com/restruct/silverstripe-asset_icons/issues/6)).
+- EPS previews are cropped to the drawing's own `%%BoundingBox` (fixed in 2.4.2,
+  [#6](https://github.com/restruct/silverstripe-asset_icons/issues/6)). Plain PostScript and
+  PDF-based AI files keep their page size; AI files have only been checked as PDF-based files.
 
 ### 17 categories, about 190 extensions
 

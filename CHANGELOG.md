@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.4.2 (2026-11-02)
+
+### Fixed
+
+- **EPS previews were rendered onto a full page instead of the drawing's own BoundingBox** (#6).
+  `GhostscriptRenderer` called `gs` without `-dEPSCrop`, so a small EPS drawing sat in the corner
+  of a Letter- or A4-sized white preview (a 100x50 pt drawing came out at 1275x1650 px at
+  150 DPI instead of about 208x104). gs ignores the flag for input without an EPSF header, so plain
+  PostScript and PDF-based AI files are unchanged. A preview generated before this release is a
+  stored file variant and is reused as is: it keeps the page-sized render until that variant is
+  removed or the file is replaced.
+- CI now installs Ghostscript, so the new EPS render test runs there instead of skipping.
+
 ## 2.4.1 (2026-10-08)
 
 ### Fixed
