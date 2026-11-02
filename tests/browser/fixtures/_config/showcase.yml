@@ -1,0 +1,15 @@
+---
+Name: aib-browser-showcase
+---
+# BROWSER-TEST FIXTURE ONLY - the README showcase folder (AiBShowcaseSeed) holds a few file types
+# core does not allow out of the box. Allowed on the scratch host only, so the seed can write them;
+# the module itself never changes File.allowed_extensions.
+SilverStripe\Assets\File:
+  allowed_extensions:
+    - woff2
+    - sql
+    - dwg
+    - epub
+    - json
+    - exe
+    - svg
