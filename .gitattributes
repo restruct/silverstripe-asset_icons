@@ -10,3 +10,4 @@
 /client/extract-icons.py export-ignore
 # Instructions for AI coding sessions on this repo; not part of the module
 /CLAUDE.md        export-ignore
+/docs             export-ignore

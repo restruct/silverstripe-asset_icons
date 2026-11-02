@@ -1,9 +1,9 @@
 {
     "name": "restruct/silverstripe-asset_icons",
-    "description": "Category-coloured file-type icons and rendered preview thumbnails (PDF, SVG, EPS) for Silverstripe's Asset Admin and UploadField",
+    "description": "Colour-coded file-type icons for Silverstripe's Files section and UploadFields, plus optional rendered preview thumbnails for PDF, SVG and EPS files",
     "type": "silverstripe-vendormodule",
     "license": "MIT",
-    "keywords": ["silverstripe", "asset-admin", "icons", "thumbnails", "pdf"],
+    "keywords": ["silverstripe", "silverstripe-module", "silverstripe-cms", "asset-admin", "file-icons", "thumbnails", "pdf", "uploadfield"],
     "homepage": "https://github.com/restruct/silverstripe-asset_icons/",
     "authors": [
         {
